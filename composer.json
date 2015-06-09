@@ -1,0 +1,8 @@
+{
+    "name": "abuseio/parser-shadowserver",
+    "description": "Parser addon for handling notifications from shadowserver",
+    "require": {
+        "php": ">=5.4.0",
+        "another-vendor/package": "1.*"
+    }
+}
