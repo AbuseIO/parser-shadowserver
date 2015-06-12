@@ -3,20 +3,37 @@
 namespace AbuseIO\Parsers;
 
 use Illuminate\Config\Repository as ConfigRepository;
+Use AbuseIO\Parsers\Parser;
 
-class Shadowserver
+class Shadowserver extends Parser
 {
-
-    protected $config;
-
-    public $parsedMail;
-    public $arfMail;
-
-    public function __construct(/*ConfigRepository */ $config, $parsedMail, $arfMail)
+    static function getConfig()
     {
-        $this->config = $config;
-        $this->parsedMail = $parsedMail;
-        $this->arfMail = $arfMail;
+        // Where did $config go from construct?
+
+        return
+            [
+                'notifier' =>
+                    [
+                        'name'          => 'Shadowserver',
+                        'enabled'       => true,
+                        // Set sender and body mapping here, instead of main config and then merge into main?
+                        'sender_map'    =>
+                            [
+                                '/autoreports@shadowserver.org/'
+                            ],
+                        'body_map'      =>
+                            [
+                                //
+                            ],
+                        'default'      =>
+                            [
+                                'class'     => 'Unknown classification',
+                                'type'      => 'Abuse',
+                                'enabled'   => false,
+                            ],
+                    ],
+            ];
     }
 
     public function parse()
