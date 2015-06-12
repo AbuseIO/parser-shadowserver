@@ -2,42 +2,36 @@
 
 namespace AbuseIO\Parsers;
 
-use Illuminate\Config\Repository as ConfigRepository;
 Use AbuseIO\Parsers\Parser;
+Use Log;
 
 class Shadowserver extends Parser
 {
-    static function getConfig()
-    {
-        // Where did $config go from construct?
 
-        return
-            [
-                'notifier' =>
-                    [
-                        'name'          => 'Shadowserver',
-                        'enabled'       => true,
-                        // Set sender and body mapping here, instead of main config and then merge into main?
-                        'sender_map'    =>
-                            [
-                                '/autoreports@shadowserver.org/'
-                            ],
-                        'body_map'      =>
-                            [
-                                //
-                            ],
-                        'default'      =>
-                            [
-                                'class'     => 'Unknown classification',
-                                'type'      => 'Abuse',
-                                'enabled'   => false,
-                            ],
-                    ],
-            ];
+    public $parsedMail;
+    public $arfMail;
+    public $config;
+
+    public function __construct($parsedMail, $arfMail, $config = 'bart')
+    {
+
+        $this->configFile = __DIR__ . '/../config/' . basename(__FILE__);
+        $this->parsedMail = $parsedMail;
+        $this->arfMail = $arfMail;
+        $this->config = $config;
+
+        parent::__construct();
+
     }
 
     public function parse()
     {
+        $parsedMail = $this->parsedMail;
+        $arfMail = $this->arfMail;
+        $config = $this->config;
+
+        Log::info(get_class($this).': Received message from: '. $parsedMail->getHeader('from') . ' with subject: \'' . $parsedMail->getHeader('subject') . '\' arrived at parser: ' . $config['parser']['name']);
+
 
         /*
          * Returns with:

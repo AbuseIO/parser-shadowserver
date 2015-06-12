@@ -2,14 +2,13 @@
 
 return
     [
-        'notifier' =>
+        'parser' =>
         [
             'name'          => 'Shadowserver',
             'enabled'       => true,
-            // Set sender and body mapping here, instead of main config and then merge into main?
             'sender_map'    =>
             [
-                '/autoreports@shadowserver.org/'
+                '/autoreports@shadowserver.org/',
             ],
             'body_map'      =>
             [
