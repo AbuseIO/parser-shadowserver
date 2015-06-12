@@ -3,6 +3,7 @@
     "description": "Parser addon for handling notifications from shadowserver",
     "license": "GPL-2.0",
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+        "abuseio/parser-common": "dev-master"
     }
 }
