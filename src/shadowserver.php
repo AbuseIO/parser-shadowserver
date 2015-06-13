@@ -3,6 +3,13 @@
 namespace AbuseIO\Parsers;
 
 Use AbuseIO\Parsers\Parser;
+Use Chumper\Zipper\Zipper;
+Use Ddeboer\DataImport\Reader;
+Use Ddeboer\DataImport\Writer;
+Use Ddeboer\DataImport\Filter;
+use SplFileObject;
+Use Illuminate\Filesystem\Filesystem;
+Use Uuid;
 Use Log;
 
 class Shadowserver extends Parser
@@ -12,117 +19,152 @@ class Shadowserver extends Parser
     public $arfMail;
     public $config;
 
-    public function __construct($parsedMail, $arfMail, $config = 'bart')
+    public function __construct($parsedMail, $arfMail, $config = false)
     {
 
         $this->configFile = __DIR__ . '/../config/' . basename(__FILE__);
+
         $this->parsedMail = $parsedMail;
         $this->arfMail = $arfMail;
         $this->config = $config;
 
-        parent::__construct();
-
     }
 
+    /*
+     * Returns with:
+     * [
+     * 'errorStatus' => $boolean required
+     * 'errorMessage' => $string required if errorStatus is true
+     * 'data' => $array required if errorStatus is false
+     * ]
+     */
     public function parse()
     {
+
         $parsedMail = $this->parsedMail;
-        $arfMail = $this->arfMail;
-        $config = $this->config;
-
-        Log::info(get_class($this).': Received message from: '. $parsedMail->getHeader('from') . ' with subject: \'' . $parsedMail->getHeader('subject') . '\' arrived at parser: ' . $config['parser']['name']);
-
-
-        /*
-         * Returns with:
-         * [
-         * 'errorStatus' => $boolean required
-         * 'errorMessage' => $string required if errorStatus is true
-         * 'data' => $array required if errorStatus is false
-         * ]
-         */
-
-        /* Legacy code:
-        foreach ($message['attachments'] as $attachmentID => $attachment) {
-            preg_match("~(?:\d{4})-(?:\d{2})-(?:\d{2})-(.*)-[^\-]+-[^\-]+.csv~i", $attachment, $feed);
-            $feed = $feed[1];
-
-            if (!isset($feeds[$feed])) {
-                //Autodetect of classification failed - this is a config error!
-                logger(LOG_ERR, __FUNCTION__ . " A configuration error was detected. An unconfigured feed ${feed} was selected for parsing");
-                logger(LOG_WARNING, __FUNCTION__ . " FAILED message from ${source} subject ${message['subject']}");
-                return false;
-            } else if (in_array($feed, $feed_ignore)) {
-                logger(LOG_INFO, __FUNCTION__ . " IGNORING message from ${source} subject ${message['subject']}");
-                return true;
-            }
-
-            $class = $feeds[$feed]['class'];
-            $type = $feeds[$feed]['type'];
-            $fields = explode(" ", $feeds[$feed]['fields']);
-            $reports = csv_to_array("${message['store']}/${attachmentID}/${attachment}");
-
-            if (!is_array($reports)) {
-                logger(LOG_ERR, __FUNCTION__ . " A parser error was detected. Will not try to continue to parse this e-mail");
-                logger(LOG_WARNING, __FUNCTION__ . " FAILED message from ${source} subject ${message['subject']}");
-                return false;
-            }
-
-            foreach ($reports as $id => $report) {
-                $information = array();
-                foreach ($fields as $field) {
-                    if (!empty($report[$field])) {
-                        $information[$field] = $report[$field];
-                    }
-                }
-
-                $outReport = array(
-                    'source' => $source,
-                    'ip' => $report['ip'],
-                    'class' => $class,
-                    'type' => $type,
-                    'timestamp' => strtotime($report['timestamp']),
-                    'information' => $information
-                );
-
-                //These reports have a domain, which we want to register seperatly
-                if ($feed == "spam_url") {
-                    $url_info = parse_url($report['url']);
-
-                    $outReport['domain'] = $url_info['host'];
-                    $outReport['uri'] = $url_info['path'];
-                }
-                if ($feed == "ssl_scan") {
-                    $outReport['domain'] = $report['subject_common_name'];
-                    $outReport['uri'] = "/";
-                }
-                if ($feed == "compromised_website") {
-                    $outReport['domain'] = $report['http_host'];
-                    $outReport['uri'] = "/";
-                }
-                if ($feed == "botnet_drone") {
-                    $outReport['domain'] = $report['cc_dns'];
-                    $outReport['uri'] = str_replace("//", "/", "/" . $report['url']);
-                }
-
-                $reportID = reportAdd($outReport);
-                if (!$reportID) return false;
-                if (KEEP_EVIDENCE == true && $reportID !== true) {
-                    evidenceLink($message['evidenceid'], $reportID);
-                }
-
-            }
-        }
-        */
+        $config     = $this->config;
 
         $events = [ ];
 
-        return
-            [
-                'errorStatus'   => false,
-                'errorMessage'  => 'test',
-                'data'          => $events,
-            ];
+        Log::info(get_class($this).': Received message from: '. $parsedMail->getHeader('from') . ' with subject: \'' . $parsedMail->getHeader('subject') . '\' arrived at parser: ' . $config['parser']['name']);
+
+        foreach ($parsedMail->getAttachments() as $attachment) {
+
+            if (strpos($attachment->filename, '.zip') !== false && $attachment->contentType == 'application/octet-stream') {
+
+                $zip        = new Zipper;
+                $filesystem = new Filesystem;
+                $tempUUID   = Uuid::generate(4);
+                $tempPath   = "/tmp/${tempUUID}/";
+
+                if (!$filesystem->makeDirectory($tempPath)) {
+                    return $this->exception("Unable to create directory ${tempPath}");
+                }
+
+                file_put_contents($tempPath . $attachment->filename, $attachment->getContent());
+
+                $zip->zip($tempPath . $attachment->filename);
+                $zip->extractTo($tempPath);
+
+                foreach ($zip->listFiles() as $index => $compressedFile) {
+
+                    if (strpos($compressedFile, '.csv') !== false) {
+
+                        // For each CSV file we find, we are going to do magic (however they useally only send 1 zip)
+
+                        preg_match("~(?:\d{4})-(?:\d{2})-(?:\d{2})-(.*)-[^\-]+-[^\-]+.csv~i", $compressedFile, $feed);
+                        $feed = $feed[1];
+
+                        if (!isset($config['feeds'][$feed])) {
+
+                            // Feed is not configured -> halt and catch fire
+                            // Todo - Delete tempdir
+                            return $this->exception("Detected feed ${feed} is unknown. No sense in trying to parse.");
+
+                        } else {
+
+                            $feedConfig = $config['feeds'][$feed];
+
+                        }
+
+                        if ($feedConfig['enabled'] !== true) {
+
+                            // Feed is disabled -> die with grace
+                            // Todo - Delete tempdir
+                            return $this->exception("Detected feed ${feed} has been disabled by configuration. No sense in trying to parse.");
+
+                        }
+
+                        $csvReader = new Reader\CsvReader(new SplFileObject($tempPath . $compressedFile));
+                        $csvReader->setHeaderRowNumber(0);
+
+
+
+                        foreach ($csvReader as $row) {
+
+                            // Build a information blob with selected fields from config
+                            $infoBlob = [];
+                            foreach (explode(' ', $feedConfig['fields']) as $column) {
+                                $infoBlob[$column] = $row[$column];
+                            }
+
+                            $event =
+                                [
+                                    'source'        => $config['parser']['name'],
+                                    'ip'            => $row['ip'],
+                                    'domain'        => '',
+                                    'uri'           => '',
+                                    'class'         => $feedConfig['class'],
+                                    'type'          => $feedConfig['type'],
+                                    'timestamp'     => strtotime($row['timestamp']),
+                                    'information'   => json_encode($infoBlob),
+                                ];
+
+                            //These rows have a domain, which we want to register seperatly
+                            if ($feed == "spam_url") {
+
+                                $urlInfo            = parse_url($row['url']);
+
+                                $event['domain']    = $urlInfo['host'];
+                                $event['uri']       = $urlInfo['path'];
+
+                            }
+
+                            if ($feed == "ssl_scan") {
+
+                                $event['domain']    = $row['subject_common_name'];
+                                $event['uri']       = "/";
+
+                            }
+
+                            if ($feed == "compromised_website") {
+
+                                $event['domain']    = $row['http_host'];
+                                $event['uri']       = "/";
+
+                            }
+
+                            if ($feed == "botnet_drone") {
+
+                                $event['domain']    = $row['cc_dns'];
+                                $event['uri']       = str_replace("//", "/", "/" . $row['url']);
+
+                            }
+                            
+                            $events[] = $event;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        return $this->success($events);
 
     }
+
 }
