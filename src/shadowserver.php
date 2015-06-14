@@ -58,7 +58,7 @@ class Shadowserver extends Parser
                 $tempPath   = "/tmp/${tempUUID}/";
 
                 if (!$filesystem->makeDirectory($tempPath)) {
-                    return $this->exception("Unable to create directory ${tempPath}");
+                    return $this->failed("Unable to create directory ${tempPath}");
                 }
 
                 file_put_contents($tempPath . $attachment->filename, $attachment->getContent());
@@ -79,7 +79,7 @@ class Shadowserver extends Parser
 
                             // Feed is not configured -> halt and catch fire
                             // Todo - Delete tempdir
-                            return $this->exception("Detected feed ${feed} is unknown. No sense in trying to parse.");
+                            return $this->failed("Detected feed ${feed} is unknown. No sense in trying to parse.");
 
                         } else {
 
@@ -91,7 +91,7 @@ class Shadowserver extends Parser
 
                             // Feed is disabled -> die with grace
                             // Todo - Delete tempdir
-                            return $this->exception("Detected feed ${feed} has been disabled by configuration. No sense in trying to parse.");
+                            return $this->failed("Detected feed ${feed} has been disabled by configuration. No sense in trying to parse.");
 
                         }
 
@@ -102,14 +102,44 @@ class Shadowserver extends Parser
 
                         foreach ($csvReader as $row) {
 
-                            // Build a information blob with selected fields from config
+                            // Build a information blob with selected fields from config and check if those
+                            // columns actually exist within the CSV
+
                             $infoBlob = [];
+
                             foreach (explode(' ', $feedConfig['fields']) as $column) {
-                                $infoBlob[$column] = $row[$column];
+
+                                if (!isset($row[$column])) {
+
+                                    return $this->failed("Required field ${column} is missing in the CSV or config is incorrect.");
+
+                                } else {
+
+                                    $infoBlob[$column] = $row[$column];
+
+                                }
+                            }
+
+                            // Basic required columns that reside in every CSV
+
+                            $requiredColumns =
+                                [
+                                    'ip',
+                                ];
+
+                            foreach ($requiredColumns as $column) {
+
+                                if (!isset($row[$column])) {
+
+                                    return $this->failed("Required field ${column} is missing in the CSV or config is incorrect.");
+
+                                }
+
                             }
 
                             $event =
                                 [
+
                                     'source'        => $config['parser']['name'],
                                     'ip'            => $row['ip'],
                                     'domain'        => '',
@@ -118,36 +148,56 @@ class Shadowserver extends Parser
                                     'type'          => $feedConfig['type'],
                                     'timestamp'     => strtotime($row['timestamp']),
                                     'information'   => json_encode($infoBlob),
+
                                 ];
 
-                            //These rows have a domain, which we want to register seperatly
+                            // some rows have a domain, which is an optional column we want to register seperatly
+
                             if ($feed == "spam_url") {
 
-                                $urlInfo            = parse_url($row['url']);
+                                if (isset($row['url'])) {
 
-                                $event['domain']    = $urlInfo['host'];
-                                $event['uri']       = $urlInfo['path'];
+                                    $urlInfo = parse_url($row['url']);
+
+                                    $event['domain'] = $urlInfo['host'];
+                                    $event['uri'] = $urlInfo['path'];
+
+                                }
 
                             }
 
                             if ($feed == "ssl_scan") {
 
-                                $event['domain']    = $row['subject_common_name'];
-                                $event['uri']       = "/";
+                                if (isset($row['subject_common_name'])) {
+
+                                    // TODO - Validate domain name if it actually exist within the domain backend
+
+                                    $event['domain'] = $row['subject_common_name'];
+                                    $event['uri'] = "/";
+
+                                }
 
                             }
 
                             if ($feed == "compromised_website") {
 
-                                $event['domain']    = $row['http_host'];
-                                $event['uri']       = "/";
+                                if (isset($row['http_host'])) {
+
+                                    $event['domain'] = $row['http_host'];
+                                    $event['uri'] = "/";
+
+                                }
 
                             }
 
                             if ($feed == "botnet_drone") {
 
-                                $event['domain']    = $row['cc_dns'];
-                                $event['uri']       = str_replace("//", "/", "/" . $row['url']);
+                                if (isset($row['cc_dns']) && isset($row['url'])) {
+
+                                    $event['domain'] = $row['cc_dns'];
+                                    $event['uri'] = str_replace("//", "/", "/" . $row['url']);
+
+                                }
 
                             }
                             
