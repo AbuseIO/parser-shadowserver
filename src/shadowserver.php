@@ -114,7 +114,7 @@ class Shadowserver extends Parser
 
                             $infoBlob = [];
 
-                            foreach ($feedConfig['fields'] as $column) {
+                            foreach (explode(' ', $feedConfig['fields']) as $column) {
 
                                 if (!isset($row[$column])) {
 
