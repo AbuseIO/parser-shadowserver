@@ -2,15 +2,15 @@
 
 namespace AbuseIO\Parsers;
 
-Use AbuseIO\Parsers\Parser;
-Use Chumper\Zipper\Zipper;
-Use Ddeboer\DataImport\Reader;
-Use Ddeboer\DataImport\Writer;
-Use Ddeboer\DataImport\Filter;
+use AbuseIO\Parsers\Parser;
+use Chumper\Zipper\Zipper;
+use Ddeboer\DataImport\Reader;
+use Ddeboer\DataImport\Writer;
+use Ddeboer\DataImport\Filter;
 use SplFileObject;
-Use Illuminate\Filesystem\Filesystem;
-Use Uuid;
-Use Log;
+use Illuminate\Filesystem\Filesystem;
+use Uuid;
+use Log;
 
 class Shadowserver extends Parser
 {
@@ -46,11 +46,16 @@ class Shadowserver extends Parser
 
         $events = [ ];
 
-        Log::info(get_class($this).': Received message from: '. $parsedMail->getHeader('from') . ' with subject: \'' . $parsedMail->getHeader('subject') . '\' arrived at parser: ' . $config['parser']['name']);
+        Log::info(
+            get_class($this).': Received message from: '. $parsedMail->getHeader('from')
+            . ' with subject: \'' . $parsedMail->getHeader('subject')
+            . '\' arrived at parser: ' . $config['parser']['name']
+        );
 
         foreach ($parsedMail->getAttachments() as $attachment) {
 
-            if (strpos($attachment->filename, '.zip') !== false && $attachment->contentType == 'application/octet-stream') {
+            if (strpos($attachment->filename, '.zip') !== false
+                && $attachment->contentType == 'application/octet-stream') {
 
                 $zip        = new Zipper;
                 $filesystem = new Filesystem;
@@ -91,7 +96,9 @@ class Shadowserver extends Parser
 
                             // Feed is disabled -> die with grace
                             // Todo - Delete tempdir
-                            return $this->failed("Detected feed ${feed} has been disabled by configuration. No sense in trying to parse.");
+                            return $this->failed(
+                                "Detected feed ${feed} has been disabled by configuration. No sense in trying to parse."
+                            );
 
                         }
 
@@ -111,7 +118,9 @@ class Shadowserver extends Parser
 
                                 if (!isset($row[$column])) {
 
-                                    return $this->failed("Required field ${column} is missing in the CSV or config is incorrect.");
+                                    return $this->failed(
+                                        "Required field ${column} is missing in the CSV or config is incorrect."
+                                    );
 
                                 } else {
 
@@ -131,7 +140,9 @@ class Shadowserver extends Parser
 
                                 if (!isset($row[$column])) {
 
-                                    return $this->failed("Required field ${column} is missing in the CSV or config is incorrect.");
+                                    return $this->failed(
+                                        "Required field ${column} is missing in the CSV or config is incorrect."
+                                    );
 
                                 }
 
@@ -216,5 +227,4 @@ class Shadowserver extends Parser
         return $this->success($events);
 
     }
-
 }
