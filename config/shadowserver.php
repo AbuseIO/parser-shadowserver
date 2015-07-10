@@ -23,6 +23,13 @@ return
         ],
         'feeds' =>
         [
+            'scan_elasticsearch' =>
+            [
+                'class'     => 'Open ElasticSearch Server',
+                'fields'    => 'protocol port version name cluster_name',
+                'type'      => 'Info',
+                'enabled'   => true,
+            ],
             'scan_qotd' =>
             [
                 'class'     => 'Open QOTD Server',
