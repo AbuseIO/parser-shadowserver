@@ -41,18 +41,15 @@ class Shadowserver extends Parser
     public function parse()
     {
 
-        $parsedMail = $this->parsedMail;
-        $config     = $this->config;
+        Log::info(
+            get_class($this).': Received message from: '. $this->parsedMail->getHeader('from')
+            . ' with subject: \'' . $this->parsedMail->getHeader('subject')
+            . '\' arrived at parser: ' . $this->config['parser']['name']
+        );
 
         $events = [ ];
 
-        Log::info(
-            get_class($this).': Received message from: '. $parsedMail->getHeader('from')
-            . ' with subject: \'' . $parsedMail->getHeader('subject')
-            . '\' arrived at parser: ' . $config['parser']['name']
-        );
-
-        foreach ($parsedMail->getAttachments() as $attachment) {
+        foreach ($this->parsedMail->getAttachments() as $attachment) {
 
             if (strpos($attachment->filename, '.zip') !== false
                 && $attachment->contentType == 'application/octet-stream') {
@@ -80,7 +77,7 @@ class Shadowserver extends Parser
                         preg_match("~(?:\d{4})-(?:\d{2})-(?:\d{2})-(.*)-[^\-]+-[^\-]+.csv~i", $compressedFile, $feed);
                         $feed = $feed[1];
 
-                        if (!isset($config['feeds'][$feed])) {
+                        if (!isset($this->config['feeds'][$feed])) {
 
                             // Feed is not configured -> halt and catch fire
                             // Todo - Delete tempdir
@@ -88,7 +85,7 @@ class Shadowserver extends Parser
 
                         } else {
 
-                            $feedConfig = $config['feeds'][$feed];
+                            $feedConfig = $this->config['feeds'][$feed];
 
                         }
 
@@ -152,7 +149,7 @@ class Shadowserver extends Parser
                             $event =
                                 [
 
-                                    'source'        => $config['parser']['name'],
+                                    'source'        => $this->config['parser']['name'],
                                     'ip'            => $row['ip'],
                                     'domain'        => '',
                                     'uri'           => '',
