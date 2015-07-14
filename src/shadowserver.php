@@ -134,6 +134,7 @@ class Shadowserver extends Parser
                             $requiredColumns =
                                 [
                                     'ip',
+                                    'timestamp',
                                 ];
 
                             foreach ($requiredColumns as $column) {
