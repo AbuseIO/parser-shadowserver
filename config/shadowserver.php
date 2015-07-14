@@ -2,20 +2,20 @@
 
 return [
     'parser' => [
-            'name'          => 'Shadowserver',
-            'enabled'       => true,
-            'sender_map'    => [
-                '/autoreports@shadowserver.org/',
-            ],
-            'body_map'      => [
-                //
-            ],
-            'default'      => [
-                'class'     => 'Unknown classification',
-                'type'      => 'Abuse',
-                'enabled'   => false,
-            ],
+        'name'          => 'Shadowserver',
+        'enabled'       => true,
+        'sender_map'    => [
+            '/autoreports@shadowserver.org/',
         ],
+        'body_map'      => [
+            //
+        ],
+        'default'      => [
+            'class'     => 'Unknown classification',
+            'type'      => 'Abuse',
+            'enabled'   => false,
+        ],
+    ],
 
         
     'feeds' => [
