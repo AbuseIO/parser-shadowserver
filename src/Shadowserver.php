@@ -69,40 +69,27 @@ class Shadowserver extends Parser
                 $zip->extractTo($tempPath);
 
                 foreach ($zip->listFiles() as $index => $compressedFile) {
-
                     if (strpos($compressedFile, '.csv') !== false) {
-
                         // For each CSV file we find, we are going to do magic (however they useally only send 1 zip)
-
                         preg_match("~(?:\d{4})-(?:\d{2})-(?:\d{2})-(.*)-[^\-]+-[^\-]+.csv~i", $compressedFile, $feed);
                         $feed = $feed[1];
 
                         if (!isset($this->config['feeds'][$feed])) {
-
-                            // Feed is not configured -> halt and catch fire
                             // Todo - Delete tempdir
                             return $this->failed("Detected feed ${feed} is unknown. No sense in trying to parse.");
-
                         } else {
-
                             $feedConfig = $this->config['feeds'][$feed];
-
                         }
 
                         if ($feedConfig['enabled'] !== true) {
-
-                            // Feed is disabled -> die with grace
                             // Todo - Delete tempdir
-                            return $this->failed(
+                            return $this->success(
                                 "Detected feed ${feed} has been disabled by configuration. No sense in trying to parse."
                             );
-
                         }
 
                         $csvReader = new Reader\CsvReader(new SplFileObject($tempPath . $compressedFile));
                         $csvReader->setHeaderRowNumber(0);
-
-
 
                         foreach ($csvReader as $row) {
 
@@ -112,117 +99,81 @@ class Shadowserver extends Parser
                             $infoBlob = [];
 
                             foreach ($feedConfig['fields'] as $column) {
-
                                 if (!isset($row[$column])) {
-
                                     return $this->failed(
                                         "Required field ${column} is missing in the CSV or config is incorrect."
                                     );
-
                                 } else {
-
                                     $infoBlob[$column] = $row[$column];
-
                                 }
                             }
 
                             // Basic required columns that reside in every CSV
 
-                            $requiredColumns =
-                                [
-                                    'ip',
-                                    'timestamp',
-                                ];
+                            $requiredColumns = [
+                                'ip',
+                                'timestamp',
+                            ];
 
                             foreach ($requiredColumns as $column) {
-
                                 if (!isset($row[$column])) {
-
                                     return $this->failed(
                                         "Required field ${column} is missing in the CSV or config is incorrect."
                                     );
-
                                 }
-
                             }
 
-                            $event =
-                                [
-
-                                    'source'        => $this->config['parser']['name'],
-                                    'ip'            => $row['ip'],
-                                    'domain'        => '',
-                                    'uri'           => '',
-                                    'class'         => $feedConfig['class'],
-                                    'type'          => $feedConfig['type'],
-                                    'timestamp'     => strtotime($row['timestamp']),
-                                    'information'   => json_encode($infoBlob),
-
-                                ];
+                            $event = [
+                                'source'        => $this->config['parser']['name'],
+                                'ip'            => $row['ip'],
+                                'domain'        => '',
+                                'uri'           => '',
+                                'class'         => $feedConfig['class'],
+                                'type'          => $feedConfig['type'],
+                                'timestamp'     => strtotime($row['timestamp']),
+                                'information'   => json_encode($infoBlob),
+                            ];
 
                             // some rows have a domain, which is an optional column we want to register seperatly
-
                             if ($feed == "spam_url") {
-
                                 if (isset($row['url'])) {
-
                                     $urlInfo = parse_url($row['url']);
 
                                     $event['domain'] = $urlInfo['host'];
                                     $event['uri'] = $urlInfo['path'];
-
                                 }
-
                             }
 
                             if ($feed == "ssl_scan") {
-
                                 if (isset($row['subject_common_name'])) {
-
                                     // TODO - Validate domain name if it actually exist within the domain backend
-
                                     $event['domain'] = $row['subject_common_name'];
                                     $event['uri'] = "/";
-
                                 }
-
                             }
 
                             if ($feed == "compromised_website") {
-
                                 if (isset($row['http_host'])) {
-
                                     $event['domain'] = $row['http_host'];
                                     $event['uri'] = "/";
-
                                 }
-
                             }
 
                             if ($feed == "botnet_drone") {
-
                                 if (isset($row['cc_dns']) && isset($row['url'])) {
-
                                     $event['domain'] = $row['cc_dns'];
                                     $event['uri'] = str_replace("//", "/", "/" . $row['url']);
-
                                 }
-
                             }
                             
                             $events[] = $event;
 
                         }
-
                     }
-
                 }
-
             }
-
         }
 
         return $this->success($events);
-
     }
 }
