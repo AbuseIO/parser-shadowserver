@@ -10,11 +10,6 @@ return [
         'body_map'      => [
             //
         ],
-        'default'      => [
-            'class'     => 'Unknown classification',
-            'type'      => 'Abuse',
-            'enabled'   => false,
-        ],
     ],
 
         
@@ -124,7 +119,7 @@ return [
         ],
 
         'scan_ntpmonitor' => [
-            'class'     => 'Possible DDOS sending NTP Server',
+            'class'     => 'Possible DDoS sending Server',
             'type'      => 'Abuse',
             'enabled'   => true,
             'fields'    => [
@@ -148,34 +143,32 @@ return [
             ],
         ],
 
-        'cwsandbox_url' =>
-            [
-                'class'     => 'Malware infection',
-                'type'      => 'Abuse',
-                'enabled'   => true,
-                'fields'    => [
-                    'md5hash',
-                    'url',
-                    'user_agent',
-                    'host',
-                    'method',
-                ],
+        'cwsandbox_url' => [
+            'class'     => 'Malware infection',
+            'type'      => 'Abuse',
+            'enabled'   => true,
+            'fields'    => [
+                'md5hash',
+                'url',
+                'user_agent',
+                'host',
+                'method',
             ],
+        ],
 
-        'sinkhole_http_drone' =>
-            [
-                'class'     => 'Botnet infection',
-                'type'      => 'Abuse',
-                'enabled'   => true,
-                'fields'    => [
-                    'type',
-                    'url',
-                    'http_agent',
-                    'src_port',
-                    'dst_ip',
-                    'dst_port',
-                ],
+        'sinkhole_http_drone' => [
+            'class'     => 'Botnet infection',
+            'type'      => 'Abuse',
+            'enabled'   => true,
+            'fields'    => [
+                'type',
+                'url',
+                'http_agent',
+                'src_port',
+                'dst_ip',
+                'dst_port',
             ],
+        ],
 
         'microsoft_sinkhole' => [
             'class'     => 'Botnet infection',
