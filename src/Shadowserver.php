@@ -125,6 +125,7 @@ class Shadowserver extends Parser
                                 'source'        => $this->config['parser']['name'],
                                 'ip'            => $row['ip'],
                                 'domain'        => false,
+                                'uri'           => false,
                                 'class'         => $feedConfig['class'],
                                 'type'          => $feedConfig['type'],
                                 'timestamp'     => strtotime($row['timestamp']),
