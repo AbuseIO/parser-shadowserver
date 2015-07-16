@@ -50,10 +50,9 @@ class Shadowserver extends Parser
         $events = [ ];
 
         foreach ($this->parsedMail->getAttachments() as $attachment) {
-
             if (strpos($attachment->filename, '.zip') !== false
-                && $attachment->contentType == 'application/octet-stream') {
-
+                && $attachment->contentType == 'application/octet-stream'
+            ) {
                 $zip        = new Zipper;
                 $filesystem = new Filesystem;
                 $tempUUID   = Uuid::generate(4);
@@ -92,7 +91,6 @@ class Shadowserver extends Parser
                         $csvReader->setHeaderRowNumber(0);
 
                         foreach ($csvReader as $row) {
-
                             // Build a information blob with selected fields from config and check if those
                             // columns actually exist within the CSV
 
@@ -126,8 +124,8 @@ class Shadowserver extends Parser
                             $event = [
                                 'source'        => $this->config['parser']['name'],
                                 'ip'            => $row['ip'],
-                                'domain'        => '',
-                                'uri'           => '',
+                                //'domain'        => '', dont leave a empty var
+                                //'uri'           => '', dont leave a empty var
                                 'class'         => $feedConfig['class'],
                                 'type'          => $feedConfig['type'],
                                 'timestamp'     => strtotime($row['timestamp']),
@@ -165,7 +163,7 @@ class Shadowserver extends Parser
                                     $event['uri'] = str_replace("//", "/", "/" . $row['url']);
                                 }
                             }
-                            
+
                             $events[] = $event;
 
                         }
