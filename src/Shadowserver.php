@@ -124,8 +124,7 @@ class Shadowserver extends Parser
                             $event = [
                                 'source'        => $this->config['parser']['name'],
                                 'ip'            => $row['ip'],
-                                //'domain'        => '', dont leave a empty var
-                                //'uri'           => '', dont leave a empty var
+                                'domain'        => false,
                                 'class'         => $feedConfig['class'],
                                 'type'          => $feedConfig['type'],
                                 'timestamp'     => strtotime($row['timestamp']),
