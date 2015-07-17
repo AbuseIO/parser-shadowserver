@@ -119,8 +119,8 @@ class Shadowserver extends Parser
                                 'ip'            => $row['ip'],
                                 'domain'        => false,
                                 'uri'           => false,
-                                'class'         => config("Shadowserver.feeds.{$feedName}.class"),,
-                                'type'          => config("Shadowserver.feeds.{$feedName}.type"),,
+                                'class'         => config("Shadowserver.feeds.{$feedName}.class"),
+                                'type'          => config("Shadowserver.feeds.{$feedName}.type"),
                                 'timestamp'     => strtotime($row['timestamp']),
                                 'information'   => json_encode($infoBlob),
                             ];
