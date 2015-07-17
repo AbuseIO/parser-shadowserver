@@ -2,41 +2,33 @@
 
 namespace AbuseIO\Parsers;
 
-use AbuseIO\Parsers\Parser;
 use Chumper\Zipper\Zipper;
 use Ddeboer\DataImport\Reader;
 use Ddeboer\DataImport\Writer;
 use Ddeboer\DataImport\Filter;
-use SplFileObject;
 use Illuminate\Filesystem\Filesystem;
+use SplFileObject;
 use Uuid;
 use Log;
 
 class Shadowserver extends Parser
 {
-
     public $parsedMail;
     public $arfMail;
-    public $config;
 
-    public function __construct($parsedMail, $arfMail, $config = false)
+    /**
+     * Create a new Shadowserver instance
+     */
+    public function __construct($parsedMail, $arfMail)
     {
-
-        $this->configFile = __DIR__ . '/../config/' . basename(__FILE__);
-
         $this->parsedMail = $parsedMail;
         $this->arfMail = $arfMail;
-        $this->config = $config;
-
     }
 
-    /*
-     * Returns with:
-     * [
-     * 'errorStatus' => $boolean required
-     * 'errorMessage' => $string required if errorStatus is true
-     * 'data' => $array required if errorStatus is false
-     * ]
+    /**
+     * Parse attachments
+     * @return Array    Returns array with failed or success data
+     *                  (See parser-common/src/Parser.php) for more info.
      */
     public function parse()
     {
@@ -44,7 +36,7 @@ class Shadowserver extends Parser
         Log::info(
             get_class($this).': Received message from: '. $this->parsedMail->getHeader('from')
             . ' with subject: \'' . $this->parsedMail->getHeader('subject')
-            . '\' arrived at parser: ' . $this->config['parser']['name']
+            . '\' arrived at parser: ' . config('Shadowserver.parser.name')
         );
 
         $events = [ ];
@@ -69,21 +61,22 @@ class Shadowserver extends Parser
 
                 foreach ($zip->listFiles() as $index => $compressedFile) {
                     if (strpos($compressedFile, '.csv') !== false) {
-                        // For each CSV file we find, we are going to do magic (however they useally only send 1 zip)
+                        // For each CSV file we find, we are going to do magic (however they usually only send 1 zip)
                         preg_match("~(?:\d{4})-(?:\d{2})-(?:\d{2})-(.*)-[^\-]+-[^\-]+.csv~i", $compressedFile, $feed);
-                        $feed = $feed[1];
+                        $feedName = $feed[1];
 
-                        if (!isset($this->config['feeds'][$feed])) {
-                            // Todo - Delete tempdir
-                            return $this->failed("Detected feed ${feed} is unknown. No sense in trying to parse.");
-                        } else {
-                            $feedConfig = $this->config['feeds'][$feed];
+                        // If this type of feed does not exist, throw error
+                        if (empty(config("Shadowserver.feeds.{$feedName}"))) {
+                            $filesystem->deleteDirectory($tempPath);
+                            return $this->failed(
+                                "Detected feed {$feedName} is unknown."
+                            );
                         }
 
-                        if ($feedConfig['enabled'] !== true) {
-                            // Todo - Delete tempdir
+                        if (config("Shadowserver.feeds.{$feedName}.enabled") !== true) {
+                            $filesystem->deleteDirectory($tempPath);
                             return $this->success(
-                                "Detected feed ${feed} has been disabled by configuration. No sense in trying to parse."
+                                "Detected feed {$feedName} has been disabled by configuration."
                             );
                         }
 
@@ -91,23 +84,23 @@ class Shadowserver extends Parser
                         $csvReader->setHeaderRowNumber(0);
 
                         foreach ($csvReader as $row) {
-                            // Build a information blob with selected fields from config and check if those
-                            // columns actually exist within the CSV
-
                             $infoBlob = [];
 
-                            foreach ($feedConfig['fields'] as $column) {
-                                if (!isset($row[$column])) {
-                                    return $this->failed(
-                                        "Required field ${column} is missing in the CSV or config is incorrect."
-                                    );
-                                } else {
-                                    $infoBlob[$column] = $row[$column];
+                            // Fill the infoBlob. 'fields' in the feeds' config is empty, get all fields.
+                            $csv_colums = array_filter(config("Shadowserver.feeds.{$feedName}.fields"));
+                            if (count($csv_colums) > 0) {
+                                foreach ($csv_colums as $column) {
+                                    if (!isset($row[$column])) {
+                                        return $this->failed(
+                                            "Required field ${column} is missing in the CSV or config is incorrect."
+                                        );
+                                    } else {
+                                        $infoBlob[$column] = $row[$column];
+                                    }
                                 }
                             }
 
                             // Basic required columns that reside in every CSV
-
                             $requiredColumns = [
                                 'ip',
                                 'timestamp',
@@ -122,50 +115,48 @@ class Shadowserver extends Parser
                             }
 
                             $event = [
-                                'source'        => $this->config['parser']['name'],
+                                'source'        => config("Shadowserver.parser.name"),
                                 'ip'            => $row['ip'],
                                 'domain'        => false,
                                 'uri'           => false,
-                                'class'         => $feedConfig['class'],
-                                'type'          => $feedConfig['type'],
+                                'class'         => config("Shadowserver.feeds.{$feedName}.class"),,
+                                'type'          => config("Shadowserver.feeds.{$feedName}.type"),,
                                 'timestamp'     => strtotime($row['timestamp']),
                                 'information'   => json_encode($infoBlob),
                             ];
 
                             // some rows have a domain, which is an optional column we want to register seperatly
-                            if ($feed == "spam_url") {
-                                if (isset($row['url'])) {
-                                    $urlInfo = parse_url($row['url']);
+                            switch ($feedName) {
+                                case "spam_url":
+                                    if (isset($row['url'])) {
+                                        $urlInfo = parse_url($row['url']);
 
-                                    $event['domain'] = $urlInfo['host'];
-                                    $event['uri'] = $urlInfo['path'];
-                                }
-                            }
-
-                            if ($feed == "ssl_scan") {
-                                if (isset($row['subject_common_name'])) {
-                                    // TODO - Validate domain name if it actually exist within the domain backend
-                                    $event['domain'] = $row['subject_common_name'];
-                                    $event['uri'] = "/";
-                                }
-                            }
-
-                            if ($feed == "compromised_website") {
-                                if (isset($row['http_host'])) {
-                                    $event['domain'] = $row['http_host'];
-                                    $event['uri'] = "/";
-                                }
-                            }
-
-                            if ($feed == "botnet_drone") {
-                                if (isset($row['cc_dns']) && isset($row['url'])) {
-                                    $event['domain'] = $row['cc_dns'];
-                                    $event['uri'] = str_replace("//", "/", "/" . $row['url']);
-                                }
+                                        $event['domain'] = $urlInfo['host'];
+                                        $event['uri'] = $urlInfo['path'];
+                                    }
+                                    break;
+                                case "ssl_scan":
+                                    if (isset($row['subject_common_name'])) {
+                                        // TODO - Validate domain name if it actually exist within the domain backend
+                                        $event['domain'] = $row['subject_common_name'];
+                                        $event['uri'] = "/";
+                                    }
+                                    break;
+                                case "compromised_website":
+                                    if (isset($row['http_host'])) {
+                                        $event['domain'] = $row['http_host'];
+                                        $event['uri'] = "/";
+                                    }
+                                    break;
+                                case "botnet_drone":
+                                    if (isset($row['cc_dns']) && isset($row['url'])) {
+                                        $event['domain'] = $row['cc_dns'];
+                                        $event['uri'] = str_replace("//", "/", "/" . $row['url']);
+                                    }
+                                    break;
                             }
 
                             $events[] = $event;
-
                         }
                     }
                 }
