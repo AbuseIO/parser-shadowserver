@@ -73,11 +73,11 @@ class Shadowserver extends Parser
                             );
                         }
 
+                        // If the feed is disabled, then continue on to the next feed or attachment
+                        // its not a 'fail' in the sense we should start alerting as it was disabled
+                        // by design or user configuration
                         if (config("Shadowserver.feeds.{$feedName}.enabled") !== true) {
-                            $filesystem->deleteDirectory($tempPath);
-                            return $this->success(
-                                "Detected feed {$feedName} has been disabled by configuration."
-                            );
+                            continue;
                         }
 
                         $csvReader = new Reader\CsvReader(new SplFileObject($tempPath . $compressedFile));
@@ -163,6 +163,7 @@ class Shadowserver extends Parser
             }
         }
 
+        $filesystem->deleteDirectory($tempPath);
         return $this->success($events);
     }
 }
