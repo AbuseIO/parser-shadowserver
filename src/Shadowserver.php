@@ -107,6 +107,13 @@ class Shadowserver extends Parser
                                 }
                             }
 
+                            // No sense in adding empty fields, so we remove them
+                            foreach ($row as $field => $value) {
+                                if ($value == "") {
+                                    unset($row[$field]);
+                                }
+                            }
+
                             $event = [
                                 'source'        => config("{$configBase}.parser.name"),
                                 'ip'            => $row['ip'],
