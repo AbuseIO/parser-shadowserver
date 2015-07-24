@@ -27,6 +27,12 @@ return [
                 'name',
                 'cluster_name',
             ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
         ],
 
         'scan_qotd' => [
@@ -39,6 +45,12 @@ return [
                 'protocol',
                 'port',
             ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
         ],
 
         'spam_url' => [
@@ -50,6 +62,12 @@ return [
                 'timestamp',
                 'url',
                 'host',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
             ],
         ],
 
@@ -69,6 +87,12 @@ return [
                 'response_length',
                 'amplification',
             ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
         ],
 
         'scan_ssl_poodle' => [
@@ -85,6 +109,12 @@ return [
                 'issuer_common_name',
                 'cert_expiration_date',
                 'issuer_organization_name',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
             ],
         ],
 
@@ -103,6 +133,12 @@ return [
                 'cert_expiration_date',
                 'issuer_organization_name',
             ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
         ],
 
         'scan_ssl_freak' => [
@@ -120,6 +156,12 @@ return [
                 'issuer_common_name',
                 'cert_expiration_date',
             ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
         ],
 
         'cc_ip' => [
@@ -131,6 +173,12 @@ return [
                 'timestamp',
                 'port',
                 'channel',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
             ],
         ],
 
@@ -147,6 +195,12 @@ return [
                 'packets',
                 'size',
             ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
         ],
 
         'compromised_website' => [
@@ -160,6 +214,12 @@ return [
                 'category',
                 'tag',
                 'redirect_target',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
             ],
         ],
 
@@ -175,6 +235,12 @@ return [
                 'user_agent',
                 'host',
                 'method',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
             ],
         ],
 
@@ -192,6 +258,12 @@ return [
                 'dst_ip',
                 'dst_port',
             ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
         ],
 
         'microsoft_sinkhole' => [
@@ -207,6 +279,12 @@ return [
                 'src_port',
                 'dst_ip',
                 'dst_port',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
             ],
         ],
 
@@ -224,6 +302,12 @@ return [
                 'cc_port',
                 'cc_dns',
             ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
         ],
 
         'dns_openresolver' => [
@@ -237,6 +321,12 @@ return [
                 'port',
                 'min_amplification',
                 'dns_version',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
             ],
         ],
 
@@ -256,6 +346,12 @@ return [
                 'stratum',
                 'system',
             ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
         ],
 
         'scan_snmp' => [
@@ -268,6 +364,12 @@ return [
                 'sysdesc',
                 'sysname',
                 'version',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
             ],
         ],
 
@@ -283,6 +385,12 @@ return [
                 'machine_name',
                 'username',
             ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
         ],
 
         'scan_ssdp' => [
@@ -297,6 +405,12 @@ return [
                 'server',
                 'unique_service_name',
             ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
         ],
 
         'scan_chargen' => [
@@ -309,6 +423,12 @@ return [
                 'protocol',
                 'port',
                 'size',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
             ],
         ],
 
@@ -333,6 +453,12 @@ return [
                 'nulluser',
                 'anon_login',
             ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
         ],
 
         'scan_net_pmp' => [
@@ -347,6 +473,12 @@ return [
                 'version',
                 'uptime',
             ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
         ],
 
         'scan_nat_pmp' => [
@@ -360,6 +492,12 @@ return [
                 'port',
                 'version',
                 'uptime',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
             ],
         ],
 
@@ -376,6 +514,12 @@ return [
                 'mode',
                 'os',
                 'process_id',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
             ],
         ],
 
@@ -394,6 +538,12 @@ return [
                 'curr_connections',
                 'total_connections',
             ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
         ],
 
         'scan_memcached' => [
@@ -410,6 +560,12 @@ return [
                 'curr_connections',
                 'total_connections',
             ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
         ],
 
         'scan_mongodb' => [
@@ -423,6 +579,12 @@ return [
                 'port',
                 'version',
                 'visible_databases',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
             ],
         ],
     ],

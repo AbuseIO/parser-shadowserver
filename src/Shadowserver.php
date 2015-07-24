@@ -100,6 +100,13 @@ class Shadowserver extends Parser
                                 }
                             }
 
+                            $filter_columns = array_filter(config("{$configBase}.feeds.{$feedName}.filters"));
+                            foreach ($filter_columns as $column) {
+                                if (!empty($row[$column])) {
+                                    unset($row[$column]);
+                                }
+                            }
+
                             $event = [
                                 'source'        => config("{$configBase}.parser.name"),
                                 'ip'            => $row['ip'],
