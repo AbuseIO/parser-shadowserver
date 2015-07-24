@@ -422,7 +422,6 @@ return [
                 'protocol',
                 'port',
                 'version',
-                'sysInfo',
                 'visible_databases',
             ],
         ],
