@@ -19,6 +19,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'protocol',
                 'port',
                 'version',
@@ -32,6 +34,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'protocol',
                 'port',
             ],
@@ -42,6 +46,8 @@ return [
             'type'      => 'Abuse',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'url',
                 'host',
             ],
@@ -52,6 +58,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'protocol',
                 'port',
                 'version',
@@ -68,6 +76,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'port',
                 'handshake',
                 'cipher_suite',
@@ -83,6 +93,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'port',
                 'handshake',
                 'cipher_suite',
@@ -98,6 +110,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'port',
                 'handshake',
                 'cipher_suite',
@@ -113,6 +127,8 @@ return [
             'type'      => 'Abuse',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'port',
                 'channel',
             ],
@@ -123,6 +139,8 @@ return [
             'type'      => 'Abuse',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'protocol',
                 'port',
                 'hostname',
@@ -136,6 +154,8 @@ return [
             'type'      => 'Abuse',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'http_host',
                 'category',
                 'tag',
@@ -148,6 +168,8 @@ return [
             'type'      => 'Abuse',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'md5hash',
                 'url',
                 'user_agent',
@@ -161,6 +183,8 @@ return [
             'type'      => 'Abuse',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'type',
                 'url',
                 'http_agent',
@@ -175,6 +199,8 @@ return [
             'type'      => 'Abuse',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'type',
                 'url',
                 'http_agent',
@@ -189,6 +215,8 @@ return [
             'type'      => 'Abuse',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'infection',
                 'url',
                 'agent',
@@ -203,6 +231,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'protocol',
                 'port',
                 'min_amplification',
@@ -215,6 +245,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'clock',
                 'error',
                 'frequency',
@@ -231,6 +263,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'sysdesc',
                 'sysname',
                 'version',
@@ -242,6 +276,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'mac_address',
                 'workgroup',
                 'machine_name',
@@ -254,6 +290,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'systime',
                 'location',
                 'server',
@@ -266,6 +304,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'protocol',
                 'port',
                 'size',
@@ -277,6 +317,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'port',
                 'ipmi_version',
                 'none_auth',
@@ -298,6 +340,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'protocol',
                 'port',
                 'version',
@@ -310,6 +354,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'protocol',
                 'port',
                 'version',
@@ -322,6 +368,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'protocol',
                 'port',
                 'version',
@@ -337,6 +385,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'protocol',
                 'port',
                 'version',
@@ -351,6 +401,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'protocol',
                 'port',
                 'version',
@@ -365,6 +417,8 @@ return [
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
+                'ip',
+                'timestamp',
                 'protocol',
                 'port',
                 'version',

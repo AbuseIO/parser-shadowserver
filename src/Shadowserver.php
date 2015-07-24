@@ -89,33 +89,14 @@ class Shadowserver extends Parser
                         $csvReader->setHeaderRowNumber(0);
 
                         foreach ($csvReader as $row) {
-                            $infoBlob = [];
-
-                            // Fill the infoBlob. 'fields' in the feeds' config is empty, get all fields.
-                            $csv_colums = array_filter(config("{$configBase}.feeds.{$feedName}.fields"));
-                            if (count($csv_colums) > 0) {
-                                foreach ($csv_colums as $column) {
+                            $csv_columns = array_filter(config("{$configBase}.feeds.{$feedName}.fields"));
+                            if (count($csv_columns) > 0) {
+                                foreach ($csv_columns as $column) {
                                     if (!isset($row[$column])) {
                                         return $this->failed(
                                             "Required field ${column} is missing in the CSV or config is incorrect."
                                         );
-                                    } else {
-                                        $infoBlob[$column] = $row[$column];
                                     }
-                                }
-                            }
-
-                            // Basic required columns that reside in every CSV
-                            $requiredColumns = [
-                                'ip',
-                                'timestamp',
-                            ];
-
-                            foreach ($requiredColumns as $column) {
-                                if (!isset($row[$column])) {
-                                    return $this->failed(
-                                        "Required field ${column} is missing in the CSV or config is incorrect."
-                                    );
                                 }
                             }
 
@@ -127,7 +108,7 @@ class Shadowserver extends Parser
                                 'class'         => config("{$configBase}.feeds.{$feedName}.class"),
                                 'type'          => config("{$configBase}.feeds.{$feedName}.type"),
                                 'timestamp'     => strtotime($row['timestamp']),
-                                'information'   => json_encode($infoBlob),
+                                'information'   => json_encode($row),
                             ];
 
                             // some rows have a domain, which is an optional column we want to register seperatly
