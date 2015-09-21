@@ -14,6 +14,30 @@ return [
 
         
     'feeds' => [
+        'scan_portmapper' => [
+            'class'     => 'Open Portmapper Server',
+            'type'      => 'Info',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'protocol',
+                'port',
+                'hostname',
+                'programs',
+                'mountd_port',
+                'exports',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+                'sic',
+            ],
+        ],
+
         'scan_elasticsearch' => [
             'class'     => 'Open ElasticSearch Server',
             'type'      => 'Info',
