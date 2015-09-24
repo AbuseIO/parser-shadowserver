@@ -1,9 +1,33 @@
 {
     "name": "abuseio/parser-shadowserver",
     "description": "Parser addon for handling notifications from shadowserver",
+    "version": "1.0.0-dev",
+    "keywords": ["laravel", "abuseio", "parser", "shadowserver"],
+    "homepage": "http://abuse.io",
+    "type": "library",
     "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "AbuseIO Foundation",
+            "email": "dev@abuse.io",
+            "homepage": "http://abuse.io",
+            "role": "Lead"
+        }
+    ],
+    "support": {
+        "email": "dev@abuse.io",
+        "issues": "https://github.com/AbuseIO/parser-shadowserver/issues",
+        "irc": "irc://irc.freenode.net/abuseio",
+        "source": "https://github.com/AbuseIO/parser-shadowserver",
+        "docs": "https://abuse.io/resources/documentation/"
+    },
     "require": {
         "php": ">=5.4.0",
         "abuseio/parser-common": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "AbuseIO\\Parser\\Shadowserver\\": "src/"
+        }
     }
 }
