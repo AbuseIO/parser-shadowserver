@@ -6,9 +6,7 @@ use Chumper\Zipper\Zipper;
 use Ddeboer\DataImport\Reader;
 use Ddeboer\DataImport\Writer;
 use Ddeboer\DataImport\Filter;
-use Illuminate\Filesystem\Filesystem;
 use SplFileObject;
-use Uuid;
 use Log;
 use ReflectionClass;
 
@@ -50,7 +48,7 @@ class Shadowserver extends Parser
             if (strpos($attachment->filename, '.zip') !== false
                 && $attachment->contentType == 'application/octet-stream'
             ) {
-                $zip        = new Zipper;
+                $zip = new Zipper;
 
                 if (!$this->createWorkingDir()) {
                     return $this->failed(
@@ -69,71 +67,66 @@ class Shadowserver extends Parser
                         preg_match("~(?:\d{4})-(?:\d{2})-(?:\d{2})-(.*)-[^\-]+-[^\-]+.csv~i", $compressedFile, $feed);
                         $this->feedName = $feed[1];
 
-                        // If this type of feed does not exist, throw error
                         if (!$this->isKnownFeed()) {
                             return $this->failed(
                                 "Detected feed {$this->feedName} is unknown."
                             );
                         }
 
-                        // If the feed is disabled, then continue on to the next feed or attachment
-                        // its not a 'fail' in the sense we should start alerting as it was disabled
-                        // by design or user configuration
                         if (!$this->isEnabledFeed()) {
                             continue;
                         }
 
-                        $csvReader = new Reader\CsvReader(new SplFileObject($this->tempPath . $compressedFile));
-                        $csvReader->setHeaderRowNumber(0);
+                        $csvReports = new Reader\CsvReader(new SplFileObject($this->tempPath . $compressedFile));
+                        $csvReports->setHeaderRowNumber(0);
 
-                        foreach ($csvReader as $row) {
-                            if (!$this->hasRequiredFields($row)) {
+                        foreach ($csvReports as $report) {
+                            if (!$this->hasRequiredFields($report)) {
                                 return $this->failed(
-                                    "Required field " . $this->requiredField
-                                    . " is missing in the CSV or config is incorrect."
+                                    "Required field {$this->requiredField} is missing or the config is incorrect."
                                 );
                             }
 
-                            $row = $this->applyFilters($row);
+                            $report = $this->applyFilters($report);
 
                             $event = [
                                 'source'        => config("{$this->configBase}.parser.name"),
-                                'ip'            => $row['ip'],
+                                'ip'            => $report['ip'],
                                 'domain'        => false,
                                 'uri'           => false,
                                 'class'         => config("{$this->configBase}.feeds.{$this->feedName}.class"),
                                 'type'          => config("{$this->configBase}.feeds.{$this->feedName}.type"),
-                                'timestamp'     => strtotime($row['timestamp']),
-                                'information'   => json_encode($row),
+                                'timestamp'     => strtotime($report['timestamp']),
+                                'information'   => json_encode($report),
                             ];
 
                             // some rows have a domain, which is an optional column we want to register seperatly
                             switch ($this->feedName) {
                                 case "spam_url":
-                                    if (isset($row['url'])) {
-                                        $urlInfo = parse_url($row['url']);
+                                    if (isset($report['url'])) {
+                                        $urlInfo = parse_url($report['url']);
 
                                         $event['domain'] = $urlInfo['host'];
                                         $event['uri'] = $urlInfo['path'];
                                     }
                                     break;
                                 case "ssl_scan":
-                                    if (isset($row['subject_common_name'])) {
+                                    if (isset($report['subject_common_name'])) {
                                         // TODO - Validate domain name if it actually exist within the domain backend
-                                        $event['domain'] = $row['subject_common_name'];
+                                        $event['domain'] = $report['subject_common_name'];
                                         $event['uri'] = "/";
                                     }
                                     break;
                                 case "compromised_website":
-                                    if (isset($row['http_host'])) {
-                                        $event['domain'] = $row['http_host'];
+                                    if (isset($report['http_host'])) {
+                                        $event['domain'] = $report['http_host'];
                                         $event['uri'] = "/";
                                     }
                                     break;
                                 case "botnet_drone":
-                                    if (isset($row['cc_dns']) && isset($row['url'])) {
-                                        $event['domain'] = $row['cc_dns'];
-                                        $event['uri'] = str_replace("//", "/", "/" . $row['url']);
+                                    if (isset($report['cc_dns']) && isset($report['url'])) {
+                                        $event['domain'] = $report['cc_dns'];
+                                        $event['uri'] = str_replace("//", "/", "/" . $report['url']);
                                     }
                                     break;
                             }
