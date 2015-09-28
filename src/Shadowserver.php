@@ -41,7 +41,7 @@ class Shadowserver extends Parser
             get_class($this). ': Received message from: '.
             $this->parsedMail->getHeader('from') . " with subject: '" .
             $this->parsedMail->getHeader('subject') . "' arrived at parser: " .
-            config($this->configBase.".parser.name")
+            config("{$this->configBase}.parser.name")
         );
 
         $events = [ ];
@@ -95,7 +95,7 @@ class Shadowserver extends Parser
                             }
 
                             // Start marker - Move this into $this->hasFilteredFields
-                            $filter_columns = array_filter(config($this->configBase . ".feeds.{$feedName}.filters"));
+                            $filter_columns = array_filter(config("{$this->configBase}.feeds.{$feedName}.filters"));
                             foreach ($filter_columns as $column) {
                                 if (!empty($row[$column])) {
                                     unset($row[$column]);
@@ -111,12 +111,12 @@ class Shadowserver extends Parser
                             // End marker
 
                             $event = [
-                                'source'        => config($this->configBase . ".parser.name"),
+                                'source'        => config("{$this->configBase}.parser.name"),
                                 'ip'            => $row['ip'],
                                 'domain'        => false,
                                 'uri'           => false,
-                                'class'         => config($this->configBase . ".feeds.{$feedName}.class"),
-                                'type'          => config($this->configBase . ".feeds.{$feedName}.type"),
+                                'class'         => config("{$this->configBase}.feeds.{$feedName}.class"),
+                                'type'          => config("{$this->configBase}.feeds.{$feedName}.type"),
                                 'timestamp'     => strtotime($row['timestamp']),
                                 'information'   => json_encode($row),
                             ];
