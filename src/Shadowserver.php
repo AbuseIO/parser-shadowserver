@@ -67,19 +67,19 @@ class Shadowserver extends Parser
                     if (strpos($compressedFile, '.csv') !== false) {
                         // For each CSV file we find, we are going to do magic (however they usually only send 1 zip)
                         preg_match("~(?:\d{4})-(?:\d{2})-(?:\d{2})-(.*)-[^\-]+-[^\-]+.csv~i", $compressedFile, $feed);
-                        $feedName = $feed[1];
+                        $this->feedName = $feed[1];
 
                         // If this type of feed does not exist, throw error
-                        if (!$this->isKnownFeed($feedName)) {
+                        if (!$this->isKnownFeed()) {
                             return $this->failed(
-                                "Detected feed {$feedName} is unknown."
+                                "Detected feed {$this->feedName} is unknown."
                             );
                         }
 
                         // If the feed is disabled, then continue on to the next feed or attachment
                         // its not a 'fail' in the sense we should start alerting as it was disabled
                         // by design or user configuration
-                        if (!$this->isEnabledFeed($feedName)) {
+                        if (!$this->isEnabledFeed()) {
                             continue;
                         }
 
@@ -87,42 +87,28 @@ class Shadowserver extends Parser
                         $csvReader->setHeaderRowNumber(0);
 
                         foreach ($csvReader as $row) {
-                            if (!$this->hasRequiredFields($feedName, $row)) {
+                            if (!$this->hasRequiredFields($row)) {
                                 return $this->failed(
                                     "Required field " . $this->requiredField
                                     . " is missing in the CSV or config is incorrect."
                                 );
                             }
 
-                            // Start marker - Move this into $this->hasFilteredFields
-                            $filter_columns = array_filter(config("{$this->configBase}.feeds.{$feedName}.filters"));
-                            foreach ($filter_columns as $column) {
-                                if (!empty($row[$column])) {
-                                    unset($row[$column]);
-                                }
-                            }
-
-                            // No sense in adding empty fields, so we remove them
-                            foreach ($row as $field => $value) {
-                                if ($value == "") {
-                                    unset($row[$field]);
-                                }
-                            }
-                            // End marker
+                            $row = $this->applyFilters($row);
 
                             $event = [
                                 'source'        => config("{$this->configBase}.parser.name"),
                                 'ip'            => $row['ip'],
                                 'domain'        => false,
                                 'uri'           => false,
-                                'class'         => config("{$this->configBase}.feeds.{$feedName}.class"),
-                                'type'          => config("{$this->configBase}.feeds.{$feedName}.type"),
+                                'class'         => config("{$this->configBase}.feeds.{$this->feedName}.class"),
+                                'type'          => config("{$this->configBase}.feeds.{$this->feedName}.type"),
                                 'timestamp'     => strtotime($row['timestamp']),
                                 'information'   => json_encode($row),
                             ];
 
                             // some rows have a domain, which is an optional column we want to register seperatly
-                            switch ($feedName) {
+                            switch ($this->feedName) {
                                 case "spam_url":
                                     if (isset($row['url'])) {
                                         $urlInfo = parse_url($row['url']);
