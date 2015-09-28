@@ -35,13 +35,13 @@ class Shadowserver extends Parser
     {
         // Generalize the local config based on the parser class name.
         $reflect = new ReflectionClass($this);
-        $configBase = 'parsers.' . $reflect->getShortName();
+        $this->configBase = 'parsers.' . $reflect->getShortName();
 
         Log::info(
             get_class($this). ': Received message from: '.
             $this->parsedMail->getHeader('from') . " with subject: '" .
             $this->parsedMail->getHeader('subject') . "' arrived at parser: " .
-            config("{$configBase}.parser.name")
+            config($this->configBase.".parser.name")
         );
 
         $events = [ ];
@@ -51,18 +51,17 @@ class Shadowserver extends Parser
                 && $attachment->contentType == 'application/octet-stream'
             ) {
                 $zip        = new Zipper;
-                $filesystem = new Filesystem;
-                $tempUUID   = Uuid::generate(4);
-                $tempPath   = "/tmp/${tempUUID}/";
 
-                if (!$filesystem->makeDirectory($tempPath)) {
-                    return $this->failed("Unable to create directory ${tempPath}");
+                if (!$this->createWorkingDir()) {
+                    return $this->failed(
+                        "Unable to create working directory"
+                    );
                 }
 
-                file_put_contents($tempPath . $attachment->filename, $attachment->getContent());
+                file_put_contents($this->tempPath . $attachment->filename, $attachment->getContent());
 
-                $zip->zip($tempPath . $attachment->filename);
-                $zip->extractTo($tempPath);
+                $zip->zip($this->tempPath . $attachment->filename);
+                $zip->extractTo($this->tempPath);
 
                 foreach ($zip->listFiles() as $index => $compressedFile) {
                     if (strpos($compressedFile, '.csv') !== false) {
@@ -71,8 +70,7 @@ class Shadowserver extends Parser
                         $feedName = $feed[1];
 
                         // If this type of feed does not exist, throw error
-                        if (empty(config("{$configBase}.feeds.{$feedName}"))) {
-                            $filesystem->deleteDirectory($tempPath);
+                        if (!$this->isKnownFeed($feedName)) {
                             return $this->failed(
                                 "Detected feed {$feedName} is unknown."
                             );
@@ -81,26 +79,23 @@ class Shadowserver extends Parser
                         // If the feed is disabled, then continue on to the next feed or attachment
                         // its not a 'fail' in the sense we should start alerting as it was disabled
                         // by design or user configuration
-                        if (config("{$configBase}.feeds.{$feedName}.enabled") !== true) {
+                        if (!$this->isEnabledFeed($feedName)) {
                             continue;
                         }
 
-                        $csvReader = new Reader\CsvReader(new SplFileObject($tempPath . $compressedFile));
+                        $csvReader = new Reader\CsvReader(new SplFileObject($this->tempPath . $compressedFile));
                         $csvReader->setHeaderRowNumber(0);
 
                         foreach ($csvReader as $row) {
-                            $csv_columns = array_filter(config("{$configBase}.feeds.{$feedName}.fields"));
-                            if (count($csv_columns) > 0) {
-                                foreach ($csv_columns as $column) {
-                                    if (!isset($row[$column])) {
-                                        return $this->failed(
-                                            "Required field ${column} is missing in the CSV or config is incorrect."
-                                        );
-                                    }
-                                }
+                            if (!$this->hasRequiredFields($feedName, $row)) {
+                                return $this->failed(
+                                    "Required field " . $this->requiredField
+                                    . " is missing in the CSV or config is incorrect."
+                                );
                             }
 
-                            $filter_columns = array_filter(config("{$configBase}.feeds.{$feedName}.filters"));
+                            // Start marker - Move this into $this->hasFilteredFields
+                            $filter_columns = array_filter(config($this->configBase . ".feeds.{$feedName}.filters"));
                             foreach ($filter_columns as $column) {
                                 if (!empty($row[$column])) {
                                     unset($row[$column]);
@@ -113,14 +108,15 @@ class Shadowserver extends Parser
                                     unset($row[$field]);
                                 }
                             }
+                            // End marker
 
                             $event = [
-                                'source'        => config("{$configBase}.parser.name"),
+                                'source'        => config($this->configBase . ".parser.name"),
                                 'ip'            => $row['ip'],
                                 'domain'        => false,
                                 'uri'           => false,
-                                'class'         => config("{$configBase}.feeds.{$feedName}.class"),
-                                'type'          => config("{$configBase}.feeds.{$feedName}.type"),
+                                'class'         => config($this->configBase . ".feeds.{$feedName}.class"),
+                                'type'          => config($this->configBase . ".feeds.{$feedName}.type"),
                                 'timestamp'     => strtotime($row['timestamp']),
                                 'information'   => json_encode($row),
                             ];
@@ -160,7 +156,6 @@ class Shadowserver extends Parser
                         }
                     }
                 }
-                $filesystem->deleteDirectory($tempPath);
             }
         }
 
