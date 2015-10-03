@@ -7,21 +7,15 @@ use Ddeboer\DataImport\Reader;
 use Ddeboer\DataImport\Writer;
 use Ddeboer\DataImport\Filter;
 use SplFileObject;
-use Log;
-use ReflectionClass;
 
 class Shadowserver extends Parser
 {
-    public $parsedMail;
-    public $arfMail;
-
     /**
      * Create a new Shadowserver instance
      */
     public function __construct($parsedMail, $arfMail)
     {
-        $this->parsedMail = $parsedMail;
-        $this->arfMail = $arfMail;
+        parent::__construct($parsedMail, $arfMail, $this);
     }
 
     /**
@@ -31,19 +25,6 @@ class Shadowserver extends Parser
      */
     public function parse()
     {
-        // Generalize the local config based on the parser class name.
-        $reflect = new ReflectionClass($this);
-        $this->configBase = 'parsers.' . $reflect->getShortName();
-
-        Log::info(
-            get_class($this). ': Received message from: '.
-            $this->parsedMail->getHeader('from') . " with subject: '" .
-            $this->parsedMail->getHeader('subject') . "' arrived at parser: " .
-            config("{$this->configBase}.parser.name")
-        );
-
-        $events = [ ];
-
         foreach ($this->parsedMail->getAttachments() as $attachment) {
             if (strpos($attachment->filename, '.zip') !== false
                 && $attachment->contentType == 'application/octet-stream'
@@ -64,80 +45,85 @@ class Shadowserver extends Parser
                 foreach ($zip->listFiles() as $index => $compressedFile) {
                     if (strpos($compressedFile, '.csv') !== false) {
                         // For each CSV file we find, we are going to do magic (however they usually only send 1 zip)
-                        preg_match("~(?:\d{4})-(?:\d{2})-(?:\d{2})-(.*)-[^\-]+-[^\-]+.csv~i", $compressedFile, $feed);
-                        $this->feedName = $feed[1];
+                        if (preg_match(
+                            "~(?:\d{4})-(?:\d{2})-(?:\d{2})-(.*)-[^\-]+-[^\-]+.csv~i",
+                            $compressedFile,
+                            $matches
+                        )) {
+                            $this->feedName = $matches[1];
 
-                        if (!$this->isKnownFeed()) {
-                            return $this->failed(
-                                "Detected feed {$this->feedName} is unknown."
-                            );
-                        }
-
-                        if (!$this->isEnabledFeed()) {
-                            continue;
-                        }
-
-                        $csvReports = new Reader\CsvReader(new SplFileObject($this->tempPath . $compressedFile));
-                        $csvReports->setHeaderRowNumber(0);
-
-                        foreach ($csvReports as $report) {
-                            if (!$this->hasRequiredFields($report)) {
-                                return $this->failed(
-                                    "Required field {$this->requiredField} is missing or the config is incorrect."
+                            // If feed is known and enabled, validate data and save report
+                            if ($this->isKnownFeed() && $this->isEnabledFeed()) {
+                                $csvReports = new Reader\CsvReader(
+                                    new SplFileObject($this->tempPath . $compressedFile)
                                 );
-                            }
+                                $csvReports->setHeaderRowNumber(0);
 
-                            $report = $this->applyFilters($report);
+                                foreach ($csvReports as $report) {
 
-                            $event = [
-                                'source'        => config("{$this->configBase}.parser.name"),
-                                'ip'            => $report['ip'],
-                                'domain'        => false,
-                                'uri'           => false,
-                                'class'         => config("{$this->configBase}.feeds.{$this->feedName}.class"),
-                                'type'          => config("{$this->configBase}.feeds.{$this->feedName}.type"),
-                                'timestamp'     => strtotime($report['timestamp']),
-                                'information'   => json_encode($report),
-                            ];
+                                    // Sanity check
+                                    if ($this->hasRequiredFields($report) === true) {
+                                        // Event has all requirements met, filter and add!
+                                        $report = $this->applyFilters($report);
 
-                            // some rows have a domain, which is an optional column we want to register seperatly
-                            switch ($this->feedName) {
-                                case "spam_url":
-                                    if (isset($report['url'])) {
-                                        $urlInfo = parse_url($report['url']);
+                                        $this->events[] = [
+                                            'source'        => config("{$this->configBase}.parser.name"),
+                                            'ip'            => $report['ip'],
+                                            'domain'        => false,
+                                            'uri'           => false,
+                                            'class'         => config(
+                                                "{$this->configBase}.feeds.{$this->feedName}.class"
+                                            ),
+                                            'type'          => config(
+                                                "{$this->configBase}.feeds.{$this->feedName}.type"
+                                            ),
+                                            'timestamp'     => strtotime($report['timestamp']),
+                                            'information'   => json_encode($report),
+                                        ];
 
-                                        $event['domain'] = $urlInfo['host'];
-                                        $event['uri'] = $urlInfo['path'];
-                                    }
-                                    break;
-                                case "ssl_scan":
-                                    if (isset($report['subject_common_name'])) {
-                                        // TODO - Validate domain name if it actually exist within the domain backend
-                                        $event['domain'] = $report['subject_common_name'];
-                                        $event['uri'] = "/";
-                                    }
-                                    break;
-                                case "compromised_website":
-                                    if (isset($report['http_host'])) {
-                                        $event['domain'] = $report['http_host'];
-                                        $event['uri'] = "/";
-                                    }
-                                    break;
-                                case "botnet_drone":
-                                    if (isset($report['cc_dns']) && isset($report['url'])) {
-                                        $event['domain'] = $report['cc_dns'];
-                                        $event['uri'] = str_replace("//", "/", "/" . $report['url']);
-                                    }
-                                    break;
-                            }
+                                        // some rows have a domain, which is an optional column we want to register
+                                        switch ($this->feedName) {
+                                            case "spam_url":
+                                                if (isset($report['url'])) {
+                                                    $urlInfo = parse_url($report['url']);
 
-                            $events[] = $event;
+                                                    $event['domain'] = $urlInfo['host'];
+                                                    $event['uri'] = $urlInfo['path'];
+                                                }
+                                                break;
+                                            case "ssl_scan":
+                                                if (isset($report['subject_common_name'])) {
+                                                    $event['domain'] = $report['subject_common_name'];
+                                                    $event['uri'] = "/";
+                                                }
+                                                break;
+                                            case "compromised_website":
+                                                if (isset($report['http_host'])) {
+                                                    $event['domain'] = $report['http_host'];
+                                                    $event['uri'] = "/";
+                                                }
+                                                break;
+                                            case "botnet_drone":
+                                                if (isset($report['cc_dns']) && isset($report['url'])) {
+                                                    $event['domain'] = $report['cc_dns'];
+                                                    $event['uri'] = str_replace("//", "/", "/" . $report['url']);
+                                                }
+                                                break;
+                                        }
+
+                                    } //End hasRequired fields
+                                } // End foreach report loop
+                            } // End isKnown & isEnabled
+                        } else { // Pregmatch failed to get feedName from attachment
+                            $this->warningCount++;
                         }
+                    } else { // Attached file is not a CSV within a ZIP file
+                        $this->warningCount++;
                     }
-                }
-            }
-        }
+                } // End each file in ZIP attachment loop
+            } // End if not a ZIP attachment
+        } // End foreach attachment loop
 
-        return $this->success($events);
+        return $this->success();
     }
 }
