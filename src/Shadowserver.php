@@ -4,8 +4,6 @@ namespace AbuseIO\Parsers;
 
 use Chumper\Zipper\Zipper;
 use Ddeboer\DataImport\Reader;
-use Ddeboer\DataImport\Writer;
-use Ddeboer\DataImport\Filter;
 use SplFileObject;
 
 class Shadowserver extends Parser
