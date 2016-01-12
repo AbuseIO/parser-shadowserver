@@ -2,6 +2,7 @@
 
 namespace AbuseIO\Parsers;
 
+use AbuseIO\Models\Incident;
 use Chumper\Zipper\Zipper;
 use Ddeboer\DataImport\Reader;
 use SplFileObject;
@@ -71,20 +72,16 @@ class Shadowserver extends Parser
                                         // Event has all requirements met, filter and add!
                                         $report = $this->applyFilters($report);
 
-                                        $this->events[] = [
-                                            'source'        => config("{$this->configBase}.parser.name"),
-                                            'ip'            => $report['ip'],
-                                            'domain'        => false,
-                                            'uri'           => false,
-                                            'class'         => config(
-                                                "{$this->configBase}.feeds.{$this->feedName}.class"
-                                            ),
-                                            'type'          => config(
-                                                "{$this->configBase}.feeds.{$this->feedName}.type"
-                                            ),
-                                            'timestamp'     => strtotime($report['timestamp']),
-                                            'information'   => json_encode($report),
-                                        ];
+                                        $incident = new Incident();
+                                        $incident->source      = config("{$this->configBase}.parser.name");
+                                        $incident->source_id   = false;
+                                        $incident->ip          = $report['ip'];
+                                        $incident->domain      = false;
+                                        $incident->uri         = false;
+                                        $incident->class       = config("{$this->configBase}.feeds.{$this->feedName}.class");
+                                        $incident->type        = config("{$this->configBase}.feeds.{$this->feedName}.type");
+                                        $incident->timestamp   = strtotime($report['timestamp']);
+                                        $incident->information = json_encode($report);
 
                                         // some rows have a domain, which is an optional column we want to register
                                         switch ($this->feedName) {
@@ -92,29 +89,31 @@ class Shadowserver extends Parser
                                                 if (isset($report['url'])) {
                                                     $urlInfo = parse_url($report['url']);
 
-                                                    $event['domain'] = $urlInfo['host'];
-                                                    $event['uri'] = $urlInfo['path'];
+                                                    $incident->domain = $urlInfo['host'];
+                                                    $incident->uri = $urlInfo['path'];
                                                 }
                                                 break;
                                             case "ssl_scan":
                                                 if (isset($report['subject_common_name'])) {
-                                                    $event['domain'] = $report['subject_common_name'];
-                                                    $event['uri'] = "/";
+                                                    $incident->domain = $report['subject_common_name'];
+                                                    $incident->uri = "/";
                                                 }
                                                 break;
                                             case "compromised_website":
                                                 if (isset($report['http_host'])) {
-                                                    $event['domain'] = $report['http_host'];
-                                                    $event['uri'] = "/";
+                                                    $incident->domain = $report['http_host'];
+                                                    $incident->uri = "/";
                                                 }
                                                 break;
                                             case "botnet_drone":
                                                 if (isset($report['cc_dns']) && isset($report['url'])) {
-                                                    $event['domain'] = $report['cc_dns'];
-                                                    $event['uri'] = str_replace("//", "/", "/" . $report['url']);
+                                                    $incident->domain = $report['cc_dns'];
+                                                    $incident->uri = str_replace("//", "/", "/" . $report['url']);
                                                 }
                                                 break;
                                         }
+
+                                        $this->events[] = $incident;
 
                                     } //End hasRequired fields
                                 } // End foreach report loop
