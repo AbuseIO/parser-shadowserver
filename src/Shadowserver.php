@@ -69,7 +69,7 @@ class Shadowserver extends Parser
 
                                     // Sanity check
                                     if ($this->hasRequiredFields($report) === true) {
-                                        // Event has all requirements met, filter and add!
+                                        // incident has all requirements met, filter and add!
                                         $report = $this->applyFilters($report);
 
                                         $incident = new Incident();
@@ -78,8 +78,10 @@ class Shadowserver extends Parser
                                         $incident->ip          = $report['ip'];
                                         $incident->domain      = false;
                                         $incident->uri         = false;
-                                        $incident->class       = config("{$this->configBase}.feeds.{$this->feedName}.class");
-                                        $incident->type        = config("{$this->configBase}.feeds.{$this->feedName}.type");
+                                        $incident->class       =
+                                            config("{$this->configBase}.feeds.{$this->feedName}.class");
+                                        $incident->type        =
+                                            config("{$this->configBase}.feeds.{$this->feedName}.type");
                                         $incident->timestamp   = strtotime($report['timestamp']);
                                         $incident->information = json_encode($report);
 
@@ -113,7 +115,7 @@ class Shadowserver extends Parser
                                                 break;
                                         }
 
-                                        $this->events[] = $incident;
+                                        $this->incidents[] = $incident;
 
                                     } //End hasRequired fields
                                 } // End foreach report loop
