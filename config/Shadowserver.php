@@ -322,7 +322,6 @@ return [
                 'infection',
                 'url',
                 'agent',
-                'cc',
                 'cc_port',
                 'cc_dns',
             ],
