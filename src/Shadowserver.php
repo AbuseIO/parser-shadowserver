@@ -97,8 +97,17 @@ class Shadowserver extends Parser
                                                 break;
                                             case "ssl_scan":
                                                 if (isset($report['subject_common_name'])) {
-                                                    $incident->domain = $report['subject_common_name'];
-                                                    $incident->uri = "/";
+                                                    if (preg_match(
+                                                        "/[a-z0-9\-]{1,63}\.[a-z\.]{2,6}$/",
+                                                        parse_url(
+                                                            'http://'.$report['subject_common_name'],
+                                                            PHP_URL_HOST
+                                                        ),
+                                                        $_domain_tld
+                                                    )) {
+                                                        $incident->domain = $_domain_tld[0];
+                                                        $incident->uri = "/";
+                                                    }
                                                 }
                                                 break;
                                             case "compromised_website":
