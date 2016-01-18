@@ -116,12 +116,6 @@ class Shadowserver extends Parser
                                                     $incident->uri = "/";
                                                 }
                                                 break;
-                                            case "botnet_drone":
-                                                if (isset($report['cc_dns']) && isset($report['url'])) {
-                                                    $incident->domain = $report['cc_dns'];
-                                                    $incident->uri = str_replace("//", "/", "/" . $report['url']);
-                                                }
-                                                break;
                                         }
 
                                         $this->incidents[] = $incident;
