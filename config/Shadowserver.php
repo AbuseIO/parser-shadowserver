@@ -12,10 +12,10 @@ return [
         ],
     ],
 
-        
+
     'feeds' => [
         'scan_portmapper' => [
-            'class'     => 'Open Portmapper Server',
+            'class'     => 'OPEN_PORTMAP_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -39,7 +39,7 @@ return [
         ],
 
         'scan_elasticsearch' => [
-            'class'     => 'Open ElasticSearch Server',
+            'class'     => 'OPEN_ELASTICSEARCH_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -60,7 +60,7 @@ return [
         ],
 
         'scan_qotd' => [
-            'class'     => 'Open QOTD Server',
+            'class'     => 'OPEN_QOTD_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -78,7 +78,7 @@ return [
         ],
 
         'spam_url' => [
-            'class'     => 'Spamvertised web site',
+            'class'     => 'SPAMVERTISED_WEBSITE',
             'type'      => 'Abuse',
             'enabled'   => true,
             'fields'    => [
@@ -96,7 +96,7 @@ return [
         ],
 
         'scan_mssql' => [
-            'class'     => 'Open Microsoft SQL Server',
+            'class'     => 'OPEN_MSSQL_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -120,7 +120,7 @@ return [
         ],
 
         'scan_ssl_poodle' => [
-            'class'     => 'SSLv3 Vulnerable Server',
+            'class'     => 'SSLV3_VULNERABLE_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -143,7 +143,7 @@ return [
         ],
 
         'ssl_scan' => [
-            'class'     => 'SSLv3 Vulnerable Server',
+            'class'     => 'SSLV3_VULNERABLE_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -166,7 +166,7 @@ return [
         ],
 
         'scan_ssl_freak' => [
-            'class'     => 'FREAK Vulnerable Server',
+            'class'     => 'FREAK_VULNERABLE_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -189,7 +189,7 @@ return [
         ],
 
         'cc_ip' => [
-            'class'     => 'Command and control server',
+            'class'     => 'BOTNET_CONTROLLER',
             'type'      => 'Abuse',
             'enabled'   => true,
             'fields'    => [
@@ -207,7 +207,7 @@ return [
         ],
 
         'scan_ntpmonitor' => [
-            'class'     => 'Possible DDoS sending Server',
+            'class'     => 'POSSIBLE_DDOS_SENDING_SERVER',
             'type'      => 'Abuse',
             'enabled'   => true,
             'fields'    => [
@@ -228,7 +228,7 @@ return [
         ],
 
         'compromised_website' => [
-            'class'     => 'Compromised website',
+            'class'     => 'COMPROMISED_WEBSITE',
             'type'      => 'Abuse',
             'enabled'   => true,
             'fields'    => [
@@ -248,7 +248,7 @@ return [
         ],
 
         'cwsandbox_url' => [
-            'class'     => 'Malware infection',
+            'class'     => 'MALWARE_INFECTION',
             'type'      => 'Abuse',
             'enabled'   => true,
             'fields'    => [
@@ -269,7 +269,7 @@ return [
         ],
 
         'sinkhole_http_drone' => [
-            'class'     => 'Botnet infection',
+            'class'     => 'BOTNET_INFECTION',
             'type'      => 'Abuse',
             'enabled'   => true,
             'fields'    => [
@@ -291,7 +291,7 @@ return [
         ],
 
         'microsoft_sinkhole' => [
-            'class'     => 'Botnet infection',
+            'class'     => 'BOTNET_INFECTION',
             'type'      => 'Abuse',
             'enabled'   => true,
             'fields'    => [
@@ -313,7 +313,7 @@ return [
         ],
 
         'botnet_drone' => [
-            'class'     => 'Botnet infection',
+            'class'     => 'BOTNET_INFECTION',
             'type'      => 'Abuse',
             'enabled'   => true,
             'fields'    => [
@@ -322,6 +322,7 @@ return [
                 'infection',
                 'url',
                 'agent',
+                'cc',
                 'cc_port',
                 'cc_dns',
             ],
@@ -334,7 +335,7 @@ return [
         ],
 
         'dns_openresolver' => [
-            'class'     => 'Open DNS Resolver',
+            'class'     => 'OPEN_DNS_RESOLVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -354,7 +355,7 @@ return [
         ],
 
         'scan_ntp' => [
-            'class'     => 'Open NTP Server',
+            'class'     => 'OPEN_NTP_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -378,7 +379,7 @@ return [
         ],
 
         'scan_snmp' => [
-            'class'     => 'Open SNMP Server',
+            'class'     => 'OPEN_SNMP_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -397,7 +398,7 @@ return [
         ],
 
         'scan_netbios' => [
-            'class'     => 'Open Netbios Server',
+            'class'     => 'OPEN_NETBIOS_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -417,7 +418,7 @@ return [
         ],
 
         'scan_ssdp' => [
-            'class'     => 'Open SSDP Server',
+            'class'     => 'OPEN_SSDP_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -437,7 +438,7 @@ return [
         ],
 
         'scan_chargen' => [
-            'class'     => 'Open Chargen Server',
+            'class'     => 'OPEN_CHARGEN_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -456,7 +457,7 @@ return [
         ],
 
         'scan_ipmi' => [
-            'class'     => 'Open IPMI Server',
+            'class'     => 'OPEN_IMPI_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -485,7 +486,7 @@ return [
         ],
 
         'scan_net_pmp' => [
-            'class'     => 'Open NAT_PMP Server',
+            'class'     => 'OPEN_NATPMP_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -505,7 +506,7 @@ return [
         ],
 
         'scan_nat_pmp' => [
-            'class'     => 'Open NAT_PMP Server',
+            'class'     => 'OPEN_NATPMP_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -525,7 +526,7 @@ return [
         ],
 
         'scan_redis' => [
-            'class'     => 'Open REDIS Server',
+            'class'     => 'OPEN_REDIS_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -548,7 +549,7 @@ return [
 
         'wiki_file' => [
             //Apparently shadowserver used this one in error, keeping it for parsing history
-            'class'     => 'Open MemCached Server',
+            'class'     => 'OPEN_MEMCACHED_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -570,7 +571,7 @@ return [
         ],
 
         'scan_memcached' => [
-            'class'     => 'Open MemCached Server',
+            'class'     => 'OPEN_MEMCACHED_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
@@ -592,7 +593,7 @@ return [
         ],
 
         'scan_mongodb' => [
-            'class'     => 'Open MongoDB Server',
+            'class'     => 'OPEN_MONGODB_SERVER',
             'type'      => 'Info',
             'enabled'   => true,
             'fields'    => [
