@@ -70,7 +70,6 @@ class Shadowserver extends Parser
                                     // Handle field mappings first
                                     foreach (config("{$this->configBase}.feeds.{$this->feedName}.aliasses") as
                                         $alias => $real) {
-                                        echo $alias;
                                         if (array_key_exists($alias, $report)) {
                                             $report[$real] = $report[$alias];
                                             unset($report[$alias]);
