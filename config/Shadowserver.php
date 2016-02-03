@@ -326,6 +326,9 @@ return [
                 'cc_port',
                 'cc_dns',
             ],
+            'aliasses' => [
+                'cc' => 'cc_ip',
+            ],
             'filters'   => [
                 'asn',
                 'geo',

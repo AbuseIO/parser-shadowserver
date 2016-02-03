@@ -67,6 +67,16 @@ class Shadowserver extends Parser
 
                                 foreach ($csvReports as $report) {
 
+                                    // Handle field mappings first
+                                    foreach (config("{$this->configBase}.feeds.{$this->feedName}.aliasses") as
+                                        $alias => $real) {
+                                        echo $alias;
+                                        if (array_key_exists($alias, $report)) {
+                                            $report[$real] = $report[$alias];
+                                            unset($report[$alias]);
+                                        }
+                                    }
+
                                     // Sanity check
                                     if ($this->hasRequiredFields($report) === true) {
                                         // incident has all requirements met, filter and add!
