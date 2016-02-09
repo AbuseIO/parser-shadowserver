@@ -68,11 +68,14 @@ class Shadowserver extends Parser
                                 foreach ($csvReports as $report) {
 
                                     // Handle field mappings first
-                                    foreach (config("{$this->configBase}.feeds.{$this->feedName}.aliasses") as
-                                        $alias => $real) {
-                                        if (array_key_exists($alias, $report)) {
-                                            $report[$real] = $report[$alias];
-                                            unset($report[$alias]);
+                                    $aliasses = config("{$this->configBase}.feeds.{$this->feedName}.aliasses");
+                                    if (is_array($aliasses)) {
+                                        foreach ($aliasses as
+                                                 $alias => $real) {
+                                            if (array_key_exists($alias, $report)) {
+                                                $report[$real] = $report[$alias];
+                                                unset($report[$alias]);
+                                            }
                                         }
                                     }
 
