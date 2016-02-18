@@ -14,6 +14,27 @@ return [
 
 
     'feeds' => [
+        'scan_mdns' => [
+            'class'     => 'OPEN_MDNS_SERVICE',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'protocol',
+                'port',
+                'hostname',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+                'sic',
+            ],
+        ],
+
         'scan_portmapper' => [
             'class'     => 'OPEN_PORTMAP_SERVER',
             'type'      => 'INFO',
