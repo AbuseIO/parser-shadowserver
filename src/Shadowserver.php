@@ -101,31 +101,40 @@ class Shadowserver extends Parser
                                         switch ($this->feedName) {
                                             case "spam_url":
                                                 if (isset($report['url'])) {
-                                                    $urlInfo = parse_url($report['url']);
+                                                    $incident->domain = getDomain($report['url']);
 
-                                                    $incident->domain = $urlInfo['host'];
-                                                    $incident->uri = $urlInfo['path'];
+                                                    if ($incident->domain != false) {
+                                                        $incident->uri = getUri($report['url']);
+                                                    }
                                                 }
                                                 break;
                                             case "ssl_scan":
                                                 if (isset($report['subject_common_name'])) {
-                                                    if (preg_match(
-                                                        "/[a-z0-9\-]{1,63}\.[a-z\.]{2,6}$/",
-                                                        parse_url(
-                                                            'http://'.$report['subject_common_name'],
-                                                            PHP_URL_HOST
-                                                        ),
-                                                        $_domain_tld
-                                                    )) {
-                                                        $incident->domain = $_domain_tld[0];
-                                                        $incident->uri = "/";
+
+                                                    /*
+                                                     * Common name does not add http://, but that is required for
+                                                     * the domain helper check so lets add it manually
+                                                     */
+                                                    $testurl = "http://{$report['subject_common_name']}";
+
+                                                    $incident->domain = getDomain($testurl);
+
+                                                    if ($incident->domain != false) {
+                                                        /*
+                                                         * No need to ask the URI, because the SSL check is always
+                                                         * against the IP (main SSL site) and the URI therefor just '/'
+                                                         */
+                                                        $incident->uri = '/';
                                                     }
                                                 }
                                                 break;
                                             case "compromised_website":
                                                 if (isset($report['http_host'])) {
-                                                    $incident->domain = $report['http_host'];
-                                                    $incident->uri = "/";
+                                                    $incident->domain = getDomain($report['http_host']);
+
+                                                    if ($incident->domain != false) {
+                                                        $incident->uri = getUri($report['http_host']);
+                                                    }
                                                 }
                                                 break;
                                         }
