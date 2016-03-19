@@ -89,7 +89,6 @@ class Shadowserver extends Parser
                                         $incident->source_id   = false;
                                         $incident->ip          = $report['ip'];
                                         $incident->domain      = false;
-                                        $incident->uri         = false;
                                         $incident->class       =
                                             config("{$this->configBase}.feeds.{$this->feedName}.class");
                                         $incident->type        =
@@ -102,10 +101,6 @@ class Shadowserver extends Parser
                                             case "spam_url":
                                                 if (isset($report['url'])) {
                                                     $incident->domain = getDomain($report['url']);
-
-                                                    if ($incident->domain != false) {
-                                                        $incident->uri = getUri($report['url']);
-                                                    }
                                                 }
                                                 break;
                                             case "ssl_scan":
@@ -118,23 +113,11 @@ class Shadowserver extends Parser
                                                     $testurl = "http://{$report['subject_common_name']}";
 
                                                     $incident->domain = getDomain($testurl);
-
-                                                    if ($incident->domain != false) {
-                                                        /*
-                                                         * No need to ask the URI, because the SSL check is always
-                                                         * against the IP (main SSL site) and the URI therefor just '/'
-                                                         */
-                                                        $incident->uri = '/';
-                                                    }
                                                 }
                                                 break;
                                             case "compromised_website":
                                                 if (isset($report['http_host'])) {
                                                     $incident->domain = getDomain($report['http_host']);
-
-                                                    if ($incident->domain != false) {
-                                                        $incident->uri = getUri($report['http_host']);
-                                                    }
                                                 }
                                                 break;
                                         }
