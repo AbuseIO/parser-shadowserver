@@ -14,6 +14,26 @@ return [
 
 
     'feeds' => [
+        'scan_tftp' => [
+            'class'     => 'OPEN_TFTP_SERVER',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'protocol',
+                'port',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+                'sic',
+            ],
+        ],
+
         'scan_mdns' => [
             'class'     => 'OPEN_MDNS_SERVICE',
             'type'      => 'INFO',
