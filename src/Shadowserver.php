@@ -31,6 +31,20 @@ class Shadowserver extends Parser
      */
     public function parse()
     {
+        // Validate user based regex
+        try {
+            preg_match(
+                config("{$this->configBase}.parser.file_regex"),
+                '',
+                $matches
+            );
+
+        } catch (\Exception $e) {
+            $this->warningCount++;
+
+            return $this->failed('Configuration error in the regular expression');
+        }
+
         foreach ($this->parsedMail->getAttachments() as $attachment) {
             if (strpos($attachment->filename, '.zip') !== false
                 && $attachment->contentType == 'application/octet-stream'
@@ -52,7 +66,7 @@ class Shadowserver extends Parser
                     if (strpos($compressedFile, '.csv') !== false) {
                         // For each CSV file we find, we are going to do magic (however they usually only send 1 zip)
                         if (preg_match(
-                            "~(?:\d{4})-(?:\d{2})-(?:\d{2})-(.*)-[^\-]+-[^\-]+.csv~i",
+                            config("{$this->configBase}.parser.file_regex"),
                             $compressedFile,
                             $matches
                         )) {
