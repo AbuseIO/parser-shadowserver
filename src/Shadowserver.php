@@ -93,6 +93,17 @@ class Shadowserver extends Parser
                                         }
                                     }
 
+                                    /*
+                                     * Legacy 3.x fix for migrations.
+                                     *
+                                     * This resolves shadowserver errors where the CSV was send in duplicate resulting
+                                     * in the header fields being used as data. If the header is detected the row can
+                                     * be skipped safely
+                                     */
+                                    if ($report['ip'] === 'ip') {
+                                        continue;
+                                    }
+
                                     // Sanity check
                                     if ($this->hasRequiredFields($report) === true) {
                                         // incident has all requirements met, filter and add!
