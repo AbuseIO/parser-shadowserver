@@ -15,6 +15,46 @@ return [
 
 
     'feeds' => [
+        'scan_isakmp' => [
+            'class'     => 'ISAKMP_VULNERABLE_DEVICE',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'protocol',
+                'port',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+                'sic',
+            ],
+        ],
+
+        'scan_rdp' => [
+            'class'     => 'OPEN_RDP_SERVER',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'port',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+                'sic',
+                'sector',
+            ],
+        ],
+
         'scan_tftp' => [
             'class'     => 'OPEN_TFTP_SERVER',
             'type'      => 'INFO',
