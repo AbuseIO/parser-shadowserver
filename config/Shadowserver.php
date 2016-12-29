@@ -15,6 +15,85 @@ return [
 
 
     'feeds' => [
+         'scan_cwmp' => [
+             'class'     => 'OPEN_CWMP_SERVER',
+             'type'      => 'INFO',
+             'enabled'   => true,
+             'fields'    => [
+                 'ip',
+                 'timestamp',
+                 'protocol',
+                 'port',
+             ],
+             'filters'   => [
+                 'asn',
+                 'geo',
+                 'region',
+                 'city',
+                 'naics',
+                 'sic',
+             ],
+         ],
+ 
+         'scan_telnet' => [
+             'class'     => 'OPEN_TELNET_SERVER',
+             'type'      => 'INFO',
+             'enabled'   => true,
+             'fields'    => [
+                 'ip',
+                 'timestamp',
+                 'protocol',
+                 'port',
+             ],
+             'filters'   => [
+                 'asn',
+                 'geo',
+                 'region',
+                 'city',
+                 'naics',
+                 'sic',
+             ],
+         ],
+ 
+         'scan_ldap' => [
+             'class'     => 'OPEN_LDAP_SERVER',
+             'type'      => 'INFO',
+             'enabled'   => true,
+             'fields'    => [
+                 'ip',
+                 'timestamp',
+                 'protocol',
+                 'port',
+             ],
+             'filters'   => [
+                 'asn',
+                 'geo',
+                 'region',
+                 'city',
+                 'naics',
+                 'sic',
+             ],
+         ],
+ 
+         'blacklist' => [
+             'class'     => 'RBL_LISTED',
+             'type'      => 'INFO',
+             'enabled'   => true,
+             'fields'    => [
+                 'ip',
+                 'timestamp',
+                 'source',
+             ],
+             'filters'   => [
+                 'asn',
+                 'geo',
+                 'region',
+                 'city',
+                 'naics',
+                 'sic',
+             ],
+        ],
+
         'scan_isakmp' => [
             'class'     => 'ISAKMP_VULNERABLE_DEVICE',
             'type'      => 'INFO',
