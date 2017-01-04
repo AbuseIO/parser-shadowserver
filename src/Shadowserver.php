@@ -92,6 +92,21 @@ class Shadowserver extends Parser
                                             }
                                         }
                                     }
+                                    /*
+                                     * Emergency fix for major false positives from shadowserver feed
+                                     * This only happens under very specific conditions and will be filtered out
+                                     * as specific as possible.
+                                     */
+                                    if ($this->feedName == 'spam_url') {
+                                        $urlFilter = '/([a-zA-Z]{3,5}.[a-zA-Z]{3,5}.com)/';
+                                        if( $report['src_geo'] == 'RU' &&
+                                            $report['url'] == "http://{$report['host']}" &&
+                                            $report['src_asn'] == "8402" &&
+                                            preg_match($urlFilter, $report['host'], $filterMatches)
+                                        ) {
+                                            continue;
+                                        }
+                                    }
 
                                     /*
                                      * Legacy 3.x fix for migrations.
