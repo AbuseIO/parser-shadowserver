@@ -22,7 +22,6 @@ return [
              'fields'    => [
                  'ip',
                  'timestamp',
-                 'protocol',
                  'port',
              ],
              'filters'   => [
@@ -42,7 +41,6 @@ return [
              'fields'    => [
                  'ip',
                  'timestamp',
-                 'protocol',
                  'port',
              ],
              'filters'   => [
