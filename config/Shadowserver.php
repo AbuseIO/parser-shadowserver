@@ -15,6 +15,46 @@ return [
 
 
     'feeds' => [
+         'scan_vnc' => [
+             'class'     => 'OPEN_VNC_SERVER',
+             'type'      => 'INFO',
+             'enabled'   => true,
+             'fields'    => [
+                 'ip',
+                 'timestamp',
+                 'protocol',
+                 'port',
+             ],
+             'filters'   => [
+                 'asn',
+                 'geo',
+                 'region',
+                 'city',
+                 'naics',
+                 'sic',
+             ],
+         ],
+
+         'scan_smb' => [
+             'class'     => 'OPEN_SMB_SERVER',
+             'type'      => 'INFO',
+             'enabled'   => true,
+             'fields'    => [
+                 'ip',
+                 'timestamp',
+                 'protocol',
+                 'port',
+             ],
+             'filters'   => [
+                 'asn',
+                 'geo',
+                 'region',
+                 'city',
+                 'naics',
+                 'sic',
+             ],
+         ],
+
          'scan_cwmp' => [
              'class'     => 'OPEN_CWMP_SERVER',
              'type'      => 'INFO',
