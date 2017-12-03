@@ -15,6 +15,76 @@ return [
 
 
     'feeds' => [
+         'cisco_smart_install' => [
+             'class'     => 'OPEN_SMARTINSTALL',
+             'type'      => 'INFO',
+             'enabled'   => true,
+             'fields'    => [
+                 'ip',
+                 'timestamp',
+                 'port',
+             ],
+             'filters'   => [
+                 'asn',
+                 'geo',
+                 'region',
+                 'city',
+                 'naics',
+                 'sic',
+             ],
+         ],
+
+         'scan_hadoop' => [
+             'class'     => 'OPEN_HADOOP_SERVER',
+             'type'      => 'INFO',
+             'enabled'   => true,
+             'fields'    => [
+                 'ip',
+                 'timestamp',
+                 'port',
+                 'server_type',
+                 'clisterid',
+                 'total_disk',
+                 'livenodes',
+                 'namenodeaddress',
+                 'volumeinfo',
+             ],
+             'filters'   => [
+                 'asn',
+                 'geo',
+                 'region',
+                 'city',
+                 'naics',
+                 'sic',
+             ],
+         ],
+
+         'sinkhole6' => [
+             'class'     => 'BOTNET_INFECTION',
+             'type'      => 'ABUSE',
+             'type'      => 'INFO',
+             'enabled'   => true,
+             'fields'    => [
+                 'src_ip',
+                 'src_port',
+                 'dst_ip',
+                 'dst_port',
+                 'timestamp',
+                 'port',
+             ],
+            'aliasses' => [
+                'ip' => 'src_ip',
+            ],
+             'filters'   => [
+                 'asn',
+                 'geo',
+                 'region',
+                 'city',
+                 'naics',
+                 'sic',
+             ],
+         ],
+
          'scan_vnc' => [
              'class'     => 'OPEN_VNC_SERVER',
              'type'      => 'INFO',
