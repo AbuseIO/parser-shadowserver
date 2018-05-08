@@ -62,7 +62,6 @@ return [
          'sinkhole6' => [
              'class'     => 'BOTNET_INFECTION',
              'type'      => 'ABUSE',
-             'type'      => 'INFO',
              'enabled'   => true,
              'fields'    => [
                  'src_ip',
