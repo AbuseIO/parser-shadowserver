@@ -892,7 +892,6 @@ return [
                 'timestamp',
                 'protocol',
                 'port',
-                'version',
                 'machine_type',
                 'afp_versions',
                 'uams',
