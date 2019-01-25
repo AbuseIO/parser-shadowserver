@@ -182,6 +182,26 @@ return [
              ],
          ],
  
+         'scan_ldap_tcp' => [
+             'class'     => 'OPEN_LDAP_SERVER',
+             'type'      => 'INFO',
+             'enabled'   => true,
+             'fields'    => [
+                 'ip',
+                 'timestamp',
+                 'protocol',
+                 'port',
+             ],
+             'filters'   => [
+                 'asn',
+                 'geo',
+                 'region',
+                 'city',
+                 'naics',
+                 'sic',
+             ],
+         ],
+        
          'blacklist' => [
              'class'     => 'RBL_LISTED',
              'type'      => 'INFO',
