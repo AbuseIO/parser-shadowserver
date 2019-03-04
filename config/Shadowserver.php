@@ -882,5 +882,30 @@ return [
                 'city',
             ],
         ],
+
+        'scan_afp' => [
+            'class'     => 'OPEN_AFP_SERVER',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'protocol',
+                'port',
+                'machine_type',
+                'afp_versions',
+                'uams',
+                'flags',
+                'server_name',
+                'directory_service',
+                'network_address',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
+        ],
     ],
 ];
