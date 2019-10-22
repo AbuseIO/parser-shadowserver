@@ -907,5 +907,106 @@ return [
                 'city',
             ],
         ],
+
+        'scan_dns' => [
+            'class'     => 'OPEN_DNS_RESOLVER',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'protocol',
+                'port',
+                'min_amplification',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
+        ],
+
+        'scan_ftp' => [
+             'class'     => 'OPEN_FTP_SERVER',
+             'type'      => 'INFO',
+             'enabled'   => true,
+             'fields'    => [
+                 'ip',
+                 'timestamp',
+                 'port',
+                 'hostname',
+                 'banner',
+             ],
+             'filters'   => [
+                 'asn',
+                 'geo',
+                 'region',
+                 'city',
+                 'naics',
+                 'sic',
+             ],
+        ],
+
+        'scan_http' => [
+             'class'     => 'OPEN_HTTP_SERVER',
+             'type'      => 'INFO',
+             'enabled'   => true,
+             'fields'    => [
+                 'ip',
+                 'timestamp',
+                 'port',
+                 'hostname',
+             ],
+             'filters'   => [
+                 'asn',
+                 'geo',
+                 'region',
+                 'city',
+                 'naics',
+                 'sic',
+             ],
+        ],
+
+        'scan_rsync' => [
+             'class'     => 'OPEN_RSYNC_SERVER',
+             'type'      => 'INFO',
+             'enabled'   => true,
+             'fields'    => [
+                 'ip',
+                 'timestamp',
+                 'port',
+                 'hostname',
+             ],
+             'filters'   => [
+                 'asn',
+                 'geo',
+                 'region',
+                 'city',
+                 'naics',
+                 'sic',
+             ],
+        ],
+
+        'scan_ldap_tcp' => [
+             'class'     => 'OPEN_LDAP_SERVER',
+             'type'      => 'INFO',
+             'enabled'   => true,
+             'fields'    => [
+                 'ip',
+                 'timestamp',
+                 'protocol',
+                 'port',
+             ],
+             'filters'   => [
+                 'asn',
+                 'geo',
+                 'region',
+                 'city',
+                 'naics',
+                 'sic',
+             ],
+         ],
+
     ],
 ];
