@@ -3,9 +3,9 @@
 namespace AbuseIO\Parsers;
 
 use AbuseIO\Models\Incident;
-use Chumper\Zipper\Zipper;
 use Ddeboer\DataImport\Reader;
 use SplFileObject;
+use Madnest\Madzipper\Madzipper;
 
 /**
  * Class Shadowserver
@@ -48,10 +48,10 @@ class Shadowserver extends Parser
         foreach ($this->parsedMail->getAttachments() as $attachment) {
             if (strpos($attachment->filename, '.zip') !== false
                 && ($attachment->contentType == 'application/octet-stream'
-                        || $attachment->contentType == 'application/zip'
+                    || $attachment->contentType == 'application/zip'
                 )
             ) {
-                $zip = new Zipper;
+
 
                 if (!$this->createWorkingDir()) {
                     return $this->failed(
@@ -61,7 +61,8 @@ class Shadowserver extends Parser
 
                 file_put_contents($this->tempPath . $attachment->filename, $attachment->getContent());
 
-                $zip->zip($this->tempPath . $attachment->filename);
+                $zip = new Madzipper;
+                $zip->make($this->tempPath . $attachment->filename);
                 $zip->extractTo($this->tempPath);
 
                 foreach ($zip->listFiles() as $index => $compressedFile) {
@@ -101,7 +102,7 @@ class Shadowserver extends Parser
                                      */
                                     if ($this->feedName == 'spam_url') {
                                         $urlFilter = '/([a-zA-Z]{3,5}.[a-zA-Z]{3,5}.com)/';
-                                        if( $report['src_geo'] == 'RU' &&
+                                        if ($report['src_geo'] == 'RU' &&
                                             $report['url'] == "http://{$report['host']}" &&
                                             $report['src_asn'] == "8402" &&
                                             preg_match($urlFilter, $report['host'], $filterMatches)
@@ -127,15 +128,15 @@ class Shadowserver extends Parser
                                         $report = $this->applyFilters($report);
 
                                         $incident = new Incident();
-                                        $incident->source      = config("{$this->configBase}.parser.name");
-                                        $incident->source_id   = false;
-                                        $incident->ip          = $report['ip'];
-                                        $incident->domain      = false;
-                                        $incident->class       =
+                                        $incident->source = config("{$this->configBase}.parser.name");
+                                        $incident->source_id = false;
+                                        $incident->ip = $report['ip'];
+                                        $incident->domain = false;
+                                        $incident->class =
                                             config("{$this->configBase}.feeds.{$this->feedName}.class");
-                                        $incident->type        =
+                                        $incident->type =
                                             config("{$this->configBase}.feeds.{$this->feedName}.type");
-                                        $incident->timestamp   = strtotime($report['timestamp']);
+                                        $incident->timestamp = strtotime($report['timestamp']);
                                         $incident->information = json_encode($report);
 
                                         // some rows have a domain, which is an optional column we want to register
