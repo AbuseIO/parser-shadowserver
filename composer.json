@@ -23,7 +23,8 @@
     },
     "require": {
         "php": "^7.2",
-        "abuseio/parser-common": "2.1.* || dev-master"
+        "abuseio/parser-common": "2.1.* || dev-master",
+        "madnest/madzipper": "^1.0"
     },
     "autoload": {
         "psr-4": {
