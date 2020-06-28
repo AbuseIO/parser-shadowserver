@@ -46,9 +46,9 @@ class Shadowserver extends Parser
         }
 
         foreach ($this->parsedMail->getAttachments() as $attachment) {
-            if (strpos($attachment->filename, '.zip') !== false
-                && ($attachment->contentType == 'application/octet-stream'
-                    || $attachment->contentType == 'application/zip'
+            if (strpos($attachment->getFilename(), '.zip') !== false
+                && ($attachment->getContentType == 'application/octet-stream'
+                    || $attachment->getContentType == 'application/zip'
                 )
             ) {
 
@@ -59,10 +59,10 @@ class Shadowserver extends Parser
                     );
                 }
 
-                file_put_contents($this->tempPath . $attachment->filename, $attachment->getContent());
+                file_put_contents($this->tempPath . $attachment->getFilename(), $attachment->getContent());
 
                 $zip = new Madzipper;
-                $zip->make($this->tempPath . $attachment->filename);
+                $zip->make($this->tempPath . $attachment->getFilename());
                 $zip->extractTo($this->tempPath);
 
                 foreach ($zip->listFiles() as $index => $compressedFile) {
