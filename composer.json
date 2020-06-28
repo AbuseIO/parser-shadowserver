@@ -1,7 +1,7 @@
 {
     "name": "abuseio/parser-shadowserver",
     "description": "Parser addon for handling notifications from shadowserver",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "keywords": ["laravel", "abuseio", "parser", "shadowserver"],
     "homepage": "http://abuse.io",
     "type": "library",
@@ -22,8 +22,8 @@
         "docs": "https://abuse.io/resources/documentation/"
     },
     "require": {
-        "php": "^7.2",
-        "abuseio/parser-common": "2.1.* || dev-master",
+        "php": ">=7.4.0",
+        "abuseio/parser-common": "3.0.* || dev-master",
         "madnest/madzipper": "^1.0"
     },
     "autoload": {
