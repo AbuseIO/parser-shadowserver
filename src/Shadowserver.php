@@ -47,8 +47,8 @@ class Shadowserver extends Parser
 
         foreach ($this->parsedMail->getAttachments() as $attachment) {
             if (strpos($attachment->getFilename(), '.zip') !== false
-                && ($attachment->getContentType == 'application/octet-stream'
-                    || $attachment->getContentType == 'application/zip'
+                && ($attachment->getContentType() == 'application/octet-stream'
+                    || $attachment->getContentType() == 'application/zip'
                 )
             ) {
 
