@@ -1008,5 +1008,47 @@ return [
              ],
          ],
 
+        'blocklist' => [
+            'class'     => 'RBL',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    =>  [
+                'ip',
+                'timestamp',
+                'source',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+                'sic',
+            ],
+        ],
+
+        'scan_smtp' => [
+            'class'     => 'VULNERABLE_SMTP_SERVER',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'port',
+                'tag',
+                'sector',
+                'banner',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+                'sic',
+            ],
+        ],
+
+
     ],
 ];
