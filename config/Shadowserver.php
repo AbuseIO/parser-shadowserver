@@ -1223,7 +1223,7 @@ return [
         ],
         //https://www.shadowserver.org/what-we-do/network-reporting/open-mqtt-report/
         'scan_mqtt' => [
-            'class'     => 'OPEN_MQTT_NETHERLANDS_GEO',
+            'class'     => 'OPEN_MQTT',
             'type'      => 'INFO',
             'enabled'   =>  true,
             'fields'    =>  [
