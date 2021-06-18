@@ -1344,8 +1344,7 @@ return [
         ],
         //https://www.shadowserver.org/what-we-do/network-reporting/darknet-report/
         'darknet' => [
-            'enabled_classifation'   => true,
-            'class'     => 'Darknet',
+            'class'     => 'DARKNET',
             'type'      => 'INFO',
             'enabled'   => true,
             'fields'    => [
