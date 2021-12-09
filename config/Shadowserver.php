@@ -1106,7 +1106,7 @@ return [
                 'sic',
             ],
         ],
-        //https://www.shadowserver.org/what-we-do/network-reporting/amplification-ddos-victim-report/
+        // https://www.shadowserver.org/what-we-do/network-reporting/honeypot-amplification-ddos-events-report/
         'event4_honeypot_ddos_amp' => [
             'class'     => 'AMPLICATION_DDOS_VICTIM',
             'type'      => 'INFO',
@@ -1126,6 +1126,27 @@ return [
                 'dst_naics',
             ],
         ],
+        // https://www.shadowserver.org/what-we-do/network-reporting/honeypot-amplification-ddos-events-report/
+        'event6_honeypot_ddos_amp' => [
+            'class'     => 'AMPLICATION_DDOS_VICTIM',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'timestamp',
+                'dst_ip',
+                'protocol',
+                'dst_port',
+                'dst_hostname',
+            ],
+            'filters'   => [
+                'dst_asn',
+                'dst_geo',
+                'dst_region',
+                'dst_city',
+                'dst_naics',
+            ],
+        ],
+
         
         //https://www.shadowserver.org/what-we-do/network-reporting/accessible-adb-report/
         'scan_adb' => [
