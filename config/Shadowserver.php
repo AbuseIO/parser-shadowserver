@@ -59,30 +59,27 @@ return [
              ],
          ],
 
-         'sinkhole6' => [
-             'class'     => 'BOTNET_INFECTION',
-             'type'      => 'ABUSE',
-             'enabled'   => true,
-             'fields'    => [
-                 'src_ip',
-                 'src_port',
-                 'dst_ip',
-                 'dst_port',
-                 'timestamp',
-                 'port',
-             ],
-            'aliasses' => [
-                'ip' => 'src_ip',
+        'event6_sinkhole_http' => [
+            'class'     => 'BOTNET_INFECTION',
+            'type'      => 'ABUSE',
+            'enabled'   => true,
+            'fields'    => [
+                'src_ip',
+                'timestamp',
+                'device_type',
+                'http_url',
+                'http_agent',
+                'src_port',
+                'dst_ip',
+                'dst_port',
             ],
-             'filters'   => [
-                 'asn',
-                 'geo',
-                 'region',
-                 'city',
-                 'naics',
-                 'sic',
-             ],
-         ],
+            'filters'   => [
+                'src_asn',
+                'src_geo',
+                'src_region',
+                'src_city',
+            ],
+        ],
 
          'scan_vnc' => [
              'class'     => 'OPEN_VNC_SERVER',
@@ -143,6 +140,26 @@ return [
          ],
  
          'scan_telnet' => [
+             'class'     => 'OPEN_TELNET_SERVER',
+             'type'      => 'INFO',
+             'enabled'   => true,
+             'fields'    => [
+                 'ip',
+                 'timestamp',
+                 'protocol',
+                 'port',
+             ],
+             'filters'   => [
+                 'asn',
+                 'geo',
+                 'region',
+                 'city',
+                 'naics',
+                 'sic',
+             ],
+         ],
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-telnet-report/
+         'scan6_telnet' => [
              'class'     => 'OPEN_TELNET_SERVER',
              'type'      => 'INFO',
              'enabled'   => true,
@@ -409,6 +426,29 @@ return [
                 'city',
             ],
         ],
+        // https://www.shadowserver.org/what-we-do/network-reporting/ssl-poodle-report/
+        'scan6_ssl_poodle' => [
+            'class'     => 'SSLV3_VULNERABLE_SERVER',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'port',
+                'handshake',
+                'cipher_suite',
+                'subject_common_name',
+                'issuer_common_name',
+                'cert_expiration_date',
+                'issuer_organization_name',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
+        ],
 
         'ssl_scan' => [
             'class'     => 'SSLV3_VULNERABLE_SERVER',
@@ -535,26 +575,26 @@ return [
                 'city',
             ],
         ],
-
-        'sinkhole_http_drone' => [
+        // https://www.shadowserver.org/what-we-do/network-reporting/sinkhole-http-events-report/
+        'event4_sinkhole_http' => [
             'class'     => 'BOTNET_INFECTION',
             'type'      => 'ABUSE',
             'enabled'   => true,
             'fields'    => [
-                'ip',
+                'src_ip',
                 'timestamp',
-                'type',
-                'url',
+                'device_type',
+                'http_url',
                 'http_agent',
                 'src_port',
                 'dst_ip',
                 'dst_port',
             ],
             'filters'   => [
-                'asn',
-                'geo',
-                'region',
-                'city',
+                'src_asn',
+                'src_geo',
+                'src_region',
+                'src_city',
             ],
         ],
 
@@ -1067,23 +1107,23 @@ return [
             ],
         ],
         //https://www.shadowserver.org/what-we-do/network-reporting/amplification-ddos-victim-report/
-        'ddos_amplification' => [
+        'event4_honeypot_ddos_amp' => [
             'class'     => 'AMPLICATION_DDOS_VICTIM',
             'type'      => 'INFO',
             'enabled'   => true,
             'fields'    => [
                 'timestamp',
-                'ip',
+                'dst_ip',
                 'protocol',
                 'dst_port',
+                'dst_hostname',
             ],
             'filters'   => [
-                'asn',
-                'geo',
-                'region',
-                'city',
-                'naics',
-                'sic',
+                'dst_asn',
+                'dst_geo',
+                'dst_region',
+                'dst_city',
+                'dst_naics',
             ],
         ],
         
@@ -1361,5 +1401,89 @@ return [
                 'sic',
             ],
         ],      
+        // https://www.shadowserver.org/what-we-do/network-reporting/blocklist-report/
+        'blocklist' => [
+            'class'     => 'RBL',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'source',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+                'sic',
+            ],
+        ],
+        // https://www.shadowserver.org/what-we-do/network-reporting/vulnerable-smtp-report/
+       'scan_smtp_vulnerable' => [
+            'class'     => 'VULNERABLE_SMTP_SERVER',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'port',
+                'tag',
+                'sector',
+                'banner',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+                'sic',
+            ],
+        ],
+        // https://www.shadowserver.org/what-we-do/network-reporting/vulnerable-smtp-report/
+        'scan6_smtp_vulnerable' => [
+            'class'     => 'VULNERABLE_SMTP_SERVER',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'port',
+                'tag',
+                'sector',
+                'banner',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+                'sic',
+            ],
+        ],
+
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-amqp-report/
+        'scan_amqp' => [
+            'class'     => 'OPEN_AMQP',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>[
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
     ],
 ];
