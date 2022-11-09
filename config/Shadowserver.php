@@ -119,6 +119,25 @@ return [
              ],
          ],
 
+         'scan6_smb' => [
+             'class'     => 'OPEN_SMB_SERVER',
+             'type'      => 'INFO',
+             'enabled'   => true,
+             'fields'    => [
+                 'ip',
+                 'timestamp',
+                 'port',
+             ],
+             'filters'   => [
+                 'asn',
+                 'geo',
+                 'region',
+                 'city',
+                 'naics',
+                 'sic',
+             ],
+         ],
+
          'scan_cwmp' => [
              'class'     => 'OPEN_CWMP_SERVER',
              'type'      => 'INFO',
@@ -257,6 +276,27 @@ return [
                 'sector',
             ],
         ],
+
+        'scan6_rdp' => [
+            'class'     => 'OPEN_RDP_SERVER',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'port',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+                'sic',
+                'sector',
+            ],
+        ],
+
 
         'scan_tftp' => [
             'class'     => 'OPEN_TFTP_SERVER',
@@ -689,6 +729,30 @@ return [
             ],
         ],
 
+        'scan6_ntp' => [
+            'class'     => 'OPEN_NTP_SERVER',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'clock',
+                'error',
+                'frequency',
+                'peer',
+                'refid',
+                'reftime',
+                'stratum',
+                'system',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
+        ],
+
         'scan_snmp' => [
             'class'     => 'OPEN_SNMP_SERVER',
             'type'      => 'INFO',
@@ -988,6 +1052,27 @@ return [
              ],
         ],
 
+        'scan6_ftp' => [
+             'class'     => 'OPEN_FTP_SERVER',
+             'type'      => 'INFO',
+             'enabled'   => true,
+             'fields'    => [
+                 'ip',
+                 'timestamp',
+                 'port',
+                 'hostname',
+                 'banner',
+             ],
+             'filters'   => [
+                 'asn',
+                 'geo',
+                 'region',
+                 'city',
+                 'naics',
+                 'sic',
+             ],
+        ],
+
         'scan_http' => [
              'class'     => 'OPEN_HTTP_SERVER',
              'type'      => 'INFO',
@@ -1007,6 +1092,28 @@ return [
                  'sic',
              ],
         ],
+
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-http-report/
+        'scan6_http' =>  [
+            'class'     => 'OPEN_HTTP_SERVER',
+            'type'      => 'INFO',
+            'enabled'   => 'true',
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
 
         'scan_rsync' => [
              'class'     => 'OPEN_RSYNC_SERVER',
@@ -1301,6 +1408,27 @@ return [
                 'naics',
             ],
         ],
+
+        //https://www.shadowserver.org/what-we-do/network-reporting/open-mqtt-report/
+        'scan6_mqtt' => [
+            'class'     => 'OPEN_MQTT',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>[
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
         //https://www.shadowserver.org/what-we-do/network-reporting/accessible-coap-report/
         'scan_coap' => [
             'class'     => 'OPEN_COAP',
@@ -1403,6 +1531,27 @@ return [
                 'sic',
             ],
         ],
+
+        'scan6_http_vulnerable' => [
+            'class'     => 'OPEN_BASIC_AUTH_SERVICE',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'protocol',
+                'port',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+                'sic',
+            ],
+        ],
+
         //https://www.shadowserver.org/what-we-do/network-reporting/darknet-report/
         'darknet' => [
             'class'     => 'DARKNET',
@@ -1424,7 +1573,7 @@ return [
         ],      
         // https://www.shadowserver.org/what-we-do/network-reporting/blocklist-report/
         'blocklist' => [
-            'class'     => 'RBL',
+            'class'     => 'RBL_LISTED',
             'type'      => 'INFO',
             'enabled'   => true,
             'fields'    => [
@@ -1498,7 +1647,291 @@ return [
                 'protocol',
                 'port',
             ],
-            'filters'   =>[
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-ssh-report/
+        'scan_ssh' => [
+            'class'     => 'OPEN_SSH_SERVER',
+            'type'      => 'INFO',
+            'enabled'   => 'true',
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-ssh-report/
+        'scan6_ssh' => [
+            'class'     => 'OPEN_SSH_SERVER',
+            'type'      => 'INFO',
+            'enabled'   => 'true',
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-smtp-report/
+        'scan_smtp' => [
+            'class'     => 'OPEN_SMTP_SERVER',
+            'type'      => 'INFO',
+            'enabled'   => 'true',
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-smtp-report/
+        'scan6_smtp' => [
+            'class'     => 'OPEN_SMTP_SERVER',
+            'type'      => 'INFO',
+            'enabled'   => 'true',
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-stun-service-report/
+        'scan_stun' =>  [
+            'class'     => 'OPEN_STUN_SERVICE',
+            'type'      => 'INFO',
+            'enabled'   => 'true',
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-stun-service-report/
+        'scan6_stun' =>  [
+            'class'     => 'OPEN_STUN_SERVICE',
+            'type'      => 'INFO',
+            'enabled'   => 'true',
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-socks4-5-proxy-report/
+        'scan_socks' => [
+            'class'     => 'OPEN_SOCKS_PROXY',
+            'type'      => 'INFO',
+            'enabled'   => 'true',
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-ics-report/
+        'scan_ics' => [
+            'class'     => 'OPEN_ICS',
+            'type'      => 'INFO',
+            'enabled'   => 'true',
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+                'device_vendor',
+                'device_type',
+                'device_model',
+                'device_version',
+                'device_id',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-postgresql-server-report/
+        'scan_postgres' => [
+            'class'     => 'OPEN_POSTGRESQL_SERVER',
+            'type'      => 'INFO',
+            'enabled'   => 'true',
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-postgresql-server-report/
+        'scan6_postgres' => [
+            'class'     => 'OPEN_POSTGRESQL_SERVER',
+            'type'      => 'INFO',
+            'enabled'   => 'true',
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-erlang-port-mapper-report-daemon/
+        'scan_epmd' => [
+            'class'     => 'OPEN_ERLANG_PORTMAPPER_DAEMON',
+            'type'      => 'INFO',
+            'enabled'   => 'true',
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+                'nodes',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        // https://www.shadowserver.org/what-we-do/network-reporting/device-identification-report/
+        'device_id' => [
+            'class'     => 'DEVICE_IDENTIFICATION',
+            'type'      => 'INFO',
+            'enabled'   => 'false',
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+                'device_vendor',
+                'device_type',
+                'device_model',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        'device_id6' => [
+            'class'     => 'DEVICE_IDENTIFICATION',
+            'type'      => 'INFO',
+            'enabled'   => 'false',
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+                'device_vendor',
+                'device_type',
+                'device_model',
+            ],
+            'filters'   =>  [
                 'asn',
                 'geo',
                 'region',
