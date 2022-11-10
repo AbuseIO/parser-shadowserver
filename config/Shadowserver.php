@@ -1681,7 +1681,7 @@ return [
         'scan6_ssh' => [
             'class'     => 'OPEN_SSH_SERVER',
             'type'      => 'INFO',
-            'enabled'   => 'true',
+            'enabled'   =>  true,
             'fields'    =>  [
                 'timestamp',
                 'ip',
@@ -1702,7 +1702,7 @@ return [
         'scan_smtp' => [
             'class'     => 'OPEN_SMTP_SERVER',
             'type'      => 'INFO',
-            'enabled'   => 'true',
+            'enabled'   =>  true,
             'fields'    =>  [
                 'timestamp',
                 'ip',
@@ -1723,7 +1723,7 @@ return [
         'scan6_smtp' => [
             'class'     => 'OPEN_SMTP_SERVER',
             'type'      => 'INFO',
-            'enabled'   => 'true',
+            'enabled'   =>  true,
             'fields'    =>  [
                 'timestamp',
                 'ip',
@@ -1744,7 +1744,7 @@ return [
         'scan_stun' =>  [
             'class'     => 'OPEN_STUN_SERVICE',
             'type'      => 'INFO',
-            'enabled'   => 'true',
+            'enabled'   =>  true,
             'fields'    =>  [
                 'timestamp',
                 'ip',
@@ -1765,7 +1765,7 @@ return [
         'scan6_stun' =>  [
             'class'     => 'OPEN_STUN_SERVICE',
             'type'      => 'INFO',
-            'enabled'   => 'true',
+            'enabled'   =>  true,
             'fields'    =>  [
                 'timestamp',
                 'ip',
@@ -1786,7 +1786,7 @@ return [
         'scan_socks' => [
             'class'     => 'OPEN_SOCKS_PROXY',
             'type'      => 'INFO',
-            'enabled'   => 'true',
+            'enabled'   =>  true,
             'fields'    =>  [
                 'timestamp',
                 'ip',
@@ -1807,7 +1807,7 @@ return [
         'scan_ics' => [
             'class'     => 'OPEN_ICS',
             'type'      => 'INFO',
-            'enabled'   => 'true',
+            'enabled'   =>  true,
             'fields'    =>  [
                 'timestamp',
                 'ip',
@@ -1833,7 +1833,7 @@ return [
         'scan_postgres' => [
             'class'     => 'OPEN_POSTGRESQL_SERVER',
             'type'      => 'INFO',
-            'enabled'   => 'true',
+            'enabled'   =>  true,
             'fields'    =>  [
                 'timestamp',
                 'ip',
@@ -1854,7 +1854,7 @@ return [
         'scan6_postgres' => [
             'class'     => 'OPEN_POSTGRESQL_SERVER',
             'type'      => 'INFO',
-            'enabled'   => 'true',
+            'enabled'   =>  true,
             'fields'    =>  [
                 'timestamp',
                 'ip',
@@ -1875,7 +1875,7 @@ return [
         'scan_epmd' => [
             'class'     => 'OPEN_ERLANG_PORTMAPPER_DAEMON',
             'type'      => 'INFO',
-            'enabled'   => 'true',
+            'enabled'   =>  true,
             'fields'    =>  [
                 'timestamp',
                 'ip',
@@ -1897,7 +1897,7 @@ return [
         'device_id' => [
             'class'     => 'DEVICE_IDENTIFICATION',
             'type'      => 'INFO',
-            'enabled'   => 'false',
+            'enabled'   =>  false,
             'fields'    =>  [
                 'timestamp',
                 'ip',
@@ -1920,7 +1920,7 @@ return [
         'device_id6' => [
             'class'     => 'DEVICE_IDENTIFICATION',
             'type'      => 'INFO',
-            'enabled'   => 'false',
+            'enabled'   =>  false,
             'fields'    =>  [
                 'timestamp',
                 'ip',
