@@ -832,7 +832,7 @@ return [
         ],
 
         'scan_ipmi' => [
-            'class'     => 'OPEN_IPMI_SERVER',
+            'class'     => 'OPEN_IMPI_SERVER',
             'type'      => 'INFO',
             'enabled'   => true,
             'fields'    => [
