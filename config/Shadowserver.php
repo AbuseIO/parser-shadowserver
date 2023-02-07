@@ -1031,6 +1031,25 @@ return [
             ],
         ],
 
+        'scan6_dns' => [
+            'class'     => 'OPEN_DNS_RESOLVER',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'protocol',
+                'port',
+                'min_amplification',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
+        ],
+
         'scan_ftp' => [
              'class'     => 'OPEN_FTP_SERVER',
              'type'      => 'INFO',
@@ -1600,7 +1619,6 @@ return [
                 'timestamp',
                 'port',
                 'tag',
-                'sector',
                 'banner',
             ],
             'filters'   => [
@@ -1622,7 +1640,6 @@ return [
                 'timestamp',
                 'port',
                 'tag',
-                'sector',
                 'banner',
             ],
             'filters'   => [
@@ -1930,6 +1947,50 @@ return [
                 'device_vendor',
                 'device_type',
                 'device_model',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        // https://www.shadowserver.org/what-we-do/network-reporting/vulnerable-exchange-server-report/
+        'scan_http_vulnerable' => [
+            'class'     => 'VULNERABLE_EXCHANGE_SERVER',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'port',
+                'version',
+                'servername',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        // https://www.shadowserver.org/what-we-do/network-reporting/vulnerable-exchange-server-report/
+        'scan6_http_vulnerable' => [
+            'class'     => 'VULNERABLE_EXCHANGE_SERVER',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'port',
+                'version',
+                'servername',
             ],
             'filters'   =>  [
                 'asn',
