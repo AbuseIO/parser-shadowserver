@@ -1619,7 +1619,6 @@ return [
                 'timestamp',
                 'port',
                 'tag',
-                'sector',
                 'banner',
             ],
             'filters'   => [
@@ -1641,7 +1640,6 @@ return [
                 'timestamp',
                 'port',
                 'tag',
-                'sector',
                 'banner',
             ],
             'filters'   => [
