@@ -2000,5 +2000,47 @@ return [
                 'naics',
             ],
         ],
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-msmq-service-report/
+        'population_msmq' => [
+            'class'     => 'ACCESSIBLE_MSMQ_SERVICE',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'port',
+                'version',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-msmq-service-report/
+        'population_msmq6' => [
+            'class'     => 'ACCESSIBLE_MSMQ_SERVICE',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'port',
+                'version',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+
     ],
 ];
