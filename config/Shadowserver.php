@@ -1172,7 +1172,28 @@ return [
                  'naics',
                  'sic',
              ],
+        ],
+        // https://www.shadowserver.org/what-we-do/network-reporting/open-ldap-report/
+        'scan_ldap_udp' => [
+             'class'     => 'OPEN_LDAP_SERVER',
+             'type'      => 'INFO',
+             'enabled'   => true,
+             'fields'    => [
+                 'ip',
+                 'timestamp',
+                 'protocol',
+                 'port',
+             ],
+             'filters'   => [
+                 'asn',
+                 'geo',
+                 'region',
+                 'city',
+                 'naics',
+                 'sic',
+             ],
          ],
+
         
         //https://www.shadowserver.org/what-we-do/network-reporting/open-proxy-report/
         'scan_open_proxy_report' => [
@@ -1958,7 +1979,7 @@ return [
         ],
 
         // https://www.shadowserver.org/what-we-do/network-reporting/vulnerable-exchange-server-report/
-        'scan_http_vulnerable' => [
+        'scan_exchange' => [
             'class'     => 'VULNERABLE_EXCHANGE_SERVER',
             'type'      => 'INFO',
             'enabled'   =>  true,
@@ -1980,7 +2001,7 @@ return [
         ],
 
         // https://www.shadowserver.org/what-we-do/network-reporting/vulnerable-exchange-server-report/
-        'scan6_http_vulnerable' => [
+        'scan6_exchange' => [
             'class'     => 'VULNERABLE_EXCHANGE_SERVER',
             'type'      => 'INFO',
             'enabled'   =>  true,
@@ -2040,7 +2061,90 @@ return [
                 'naics',
             ],
         ],
-
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-slp-service-report/
+        'scan_slp' => [
+            'class'     => 'ACCESSIBLE_SLP_SERVICE',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'protocol',
+                'hostname',
+                'port',
+                'version',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-slp-service-report/
+        'scan6_slp' => [
+            'class'     => 'ACCESSIBLE_SLP_SERVICE',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'protocol',
+                'hostname',
+                'port',
+                'version',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-bgp-service-report/
+        'population_bgp' => [
+            'class'     => 'ACCESSIBLE_BGP_SERVICE',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'port',
+                'bgp_version',
+                'bgp_identifier',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-bgp-service-report/
+        'population6_bgp' => [
+            'class'     => 'ACCESSIBLE_BGP_SERVICE',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'port',
+                'bgp_version',
+                'bgp_identifier',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
 
     ],
 ];
