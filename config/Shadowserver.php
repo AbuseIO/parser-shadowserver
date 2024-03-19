@@ -2146,5 +2146,27 @@ return [
             ],
         ],
 
+        // https://www.shadowserver.org/what-we-do/network-reporting/sinkhole-events-report/
+        'event4_sinkhole' => [
+            'class'     => 'BOTNET_INFECTION',
+            'type'      => 'ABUSE',
+            'enabled'   => true,
+            'fields'    => [
+                'src_ip',
+                'timestamp',
+                'src_port',
+                'device_type',
+                'dst_ip',
+                'dst_port',
+                'infection',
+            ],
+            'filters'   => [
+                'src_asn',
+                'src_geo',
+                'src_region',
+                'src_city',
+            ],
+        ],
+
     ],
 ];
