@@ -2166,6 +2166,9 @@ return [
                 'src_region',
                 'src_city',
             ],
+            'aliasses' => [
+                'src_ip' => 'ip',
+            ],
         ],
 
     ],
