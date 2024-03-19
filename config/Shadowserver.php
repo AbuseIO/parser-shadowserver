@@ -2152,7 +2152,7 @@ return [
             'type'      => 'ABUSE',
             'enabled'   => true,
             'fields'    => [
-                'src_ip',
+                'ip',
                 'timestamp',
                 'src_port',
                 'device_type',
