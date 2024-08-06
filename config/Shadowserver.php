@@ -2171,5 +2171,45 @@ return [
             ],
         ],
 
+        // https://www.shadowserver.org/what-we-do/network-reporting/sinkhole-dns-events-report/
+        'event4_sinkhole_dns' => [
+            'class'     => 'BOTNET_INFECTION',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'src_ip',
+                'timestamp',
+                'infection',
+                'family',
+                'query',
+            ],
+            'filters'   => [
+                'src_asn',
+                'src_geo',
+                'src_region',
+                'src_city',
+            ],
+        ],
+
+        // https://www.shadowserver.org/what-we-do/network-reporting/sinkhole-dns-events-report/
+        'event6_sinkhole_dns' => [
+            'class'     => 'BOTNET_INFECTION',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'src_ip',
+                'timestamp',
+                'infection',
+                'family',
+                'query',
+            ],
+            'filters'   => [
+                'src_asn',
+                'src_geo',
+                'src_region',
+                'src_city',
+            ],
+        ],
+
     ],
 ];
