@@ -2042,7 +2042,7 @@ return [
             ],
         ],
         // https://www.shadowserver.org/what-we-do/network-reporting/accessible-msmq-service-report/
-        'population_msmq6' => [
+        'population6_msmq' => [
             'class'     => 'ACCESSIBLE_MSMQ_SERVICE',
             'type'      => 'INFO',
             'enabled'   =>  true,
