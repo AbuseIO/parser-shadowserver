@@ -2170,6 +2170,49 @@ return [
                 'src_ip' => 'ip',
             ],
         ],
+    
+    // https://www.shadowserver.org/what-we-do/network-reporting/accessible-mysql-server-report/
+        'scan_mysql' => [
+            'class'     => 'OPEN_MYSQL_SERVER',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        // https://www.shadowserver.org/what-we-do/network-reporting/accessible-mysql-server-report/
+        'scan6_mysql' => [
+            'class'     => 'OPEN_MYSQL_SERVER',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
 
     ],
 ];
