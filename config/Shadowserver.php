@@ -1038,7 +1038,7 @@ return [
         ],
 
         // https://www.shadowserver.org/what-we-do/network-reporting/open-nat-pmp-report/
-        'scan_net_pmp' => [
+        'scan_nat_pmp' => [
             'class'     => 'OPEN_NATPMP_SERVER',
             'type'      => 'INFO',
             'enabled'   => true,
