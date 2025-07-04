@@ -4,7 +4,13 @@ return [
     'parser' => [
         'name'          => 'Shadowserver',
         'enabled'       => true,
+        # AbuseIO CI only contains old-format EML's. Until someone submits updated EML's we cannot switch over.
+        # To allow (new) users to switch/address the issue they can comment the old format and uncomment the new format
+        # to create a working install. Regex has not been tested and is based on a single text subject example from ShadowServer
+        # Old format from ShadowServer:
         'file_regex'    => "~(?:\d{4})-(?:\d{2})-(?:\d{2})-(.*)-[^\-]+-[^\-]+.csv~i",
+        # New format from Shadowserver
+        #'file_regex'    => "(?:\d{4})-(?:\d{2})-(?:\d{2})-(.*)-[^\-]+-[^\-]+-[^\-]+.csv",
         'sender_map'    => [
             '/autoreports@shadowserver.org/',
         ],
