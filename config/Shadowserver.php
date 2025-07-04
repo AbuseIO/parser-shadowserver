@@ -10,7 +10,9 @@ return [
         # Old format from ShadowServer:
         'file_regex'    => "~(?:\d{4})-(?:\d{2})-(?:\d{2})-(.*)-[^\-]+-[^\-]+.csv~i",
         # New format from Shadowserver
-        #'file_regex'    => "(?:\d{4})-(?:\d{2})-(?:\d{2})-(.*)-[^\-]+-[^\-]+-[^\-]+.csv",
+        #'file_regex'    => "~(?:\d{4})-(?:\d{2})-(?:\d{2})-(.*)-[^\-]+-[^\-]+-[^\-]+.csv~i",
+        # New format from Shadowserver in overpermissive regex:
+        #'file_regex'    => "~(?:\d{4})-(?:\d{2})-(?:\d{2})-([^-]+)-.*\.csv~i",
         'sender_map'    => [
             '/autoreports@shadowserver.org/',
         ],
