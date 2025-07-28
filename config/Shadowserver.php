@@ -733,6 +733,7 @@ return [
             ],
         ],
 
+        //https://www.shadowserver.org/what-we-do/network-reporting/compromised-website-report/
         'compromised_website' => [
             'class'     => 'COMPROMISED_WEBSITE',
             'type'      => 'ABUSE',
@@ -752,6 +753,28 @@ return [
                 'city',
             ],
         ],
+
+        //https://www.shadowserver.org/what-we-do/network-reporting/compromised-website-report/
+        'compromised_website6' => [
+            'class'     => 'COMPROMISED_WEBSITE',
+            'type'      => 'ABUSE',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'http_host',
+                'category',
+                'tag',
+                'redirect_target',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
+        ],
+    
 
         'cwsandbox_url' => [
             'class'     => 'MALWARE_INFECTION',
@@ -1633,6 +1656,24 @@ return [
                 'city',
             ],
         ],
+
+        //https://www.shadowserver.org/what-we-do/network-reporting/netcore-netis-router-vulnerability-scan-report/
+        'scan_netis_router' => [
+            'class'     => 'NETCORE_NETIS_ROUTER_VULNERABILITY_SCAN_REPORT',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'port',
+            ],
+            'filters'   =>[
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
+        ],
     
         //https://www.shadowserver.org/what-we-do/network-reporting/open-db2-discovery-service-report/
         'scan_db2' => [
@@ -1717,6 +1758,28 @@ return [
     
         //https://www.shadowserver.org/what-we-do/network-reporting/open-ipp-report/
         'scan_ipp' => [
+            'class'     => 'OPEN_IPP',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'protocol',
+                'port',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+                'sic',
+                'response',
+            ],
+        ],
+
+        //https://www.shadowserver.org/what-we-do/network-reporting/open-ipp-report/
+        'scan6_ipp' => [
             'class'     => 'OPEN_IPP',
             'type'      => 'INFO',
             'enabled'   => true,
@@ -2452,6 +2515,131 @@ return [
             ],
         ],
 
+        //https://www.shadowserver.org/what-we-do/network-reporting/accessible-kubernetes-api-server-report/
+        'scan_kubernetes' => [
+            'class'     => 'ACCESSIBLE_KUBERNETES',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        //https://www.shadowserver.org/what-we-do/network-reporting/accessible-ms-rpc-service-report/
+        'scan_msrpc' => [
+            'class'     => 'ACCESSIBLE_MSRPC',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        //https://www.shadowserver.org/what-we-do/network-reporting/accessible-imap-report/
+        'scan_imap' => [
+            'class'     => 'ACCESSIBLE_IMAP',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+    //https://www.shadowserver.org/what-we-do/network-reporting/accessible-imap-report/
+        'scan6_imap' => [
+            'class'     => 'ACCESSIBLE_IMAP',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        //https://www.shadowserver.org/what-we-do/network-reporting/accessible-pop3-report/
+        'scan_pop3' => [
+            'class'     => 'ACCESSIBLE_POP3',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
+
+        //https://www.shadowserver.org/what-we-do/network-reporting/accessible-pop3-report/
+        'scan6_pop3' => [
+            'class'     => 'ACCESSIBLE_POP3',
+            'type'      => 'INFO',
+            'enabled'   =>  true,
+            'fields'    =>  [
+                'timestamp',
+                'ip',
+                'hostname',
+                'protocol',
+                'port',
+            ],
+            'filters'   =>  [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+            ],
+        ],
 
     ],
 ];
