@@ -59,7 +59,6 @@ return [
                  'region',
                  'city',
                  'naics',
-                 'sic',
              ],
          ],
 
@@ -73,7 +72,7 @@ return [
                  'timestamp',
                  'port',
                  'server_type',
-                 'clisterid',
+                 'clusterid',
                  'total_disk',
                  'livenodes',
                  'namenodeaddress',
@@ -85,7 +84,6 @@ return [
                  'region',
                  'city',
                  'naics',
-                 'sic',
              ],
          ],
 
@@ -128,7 +126,6 @@ return [
                  'region',
                  'city',
                  'naics',
-                 'sic',
              ],
          ],
 
@@ -148,7 +145,6 @@ return [
                  'region',
                  'city',
                  'naics',
-                 'sic',
              ],
          ],
 
@@ -168,7 +164,6 @@ return [
                  'region',
                  'city',
                  'naics',
-                 'sic',
              ],
          ],
 
@@ -188,7 +183,6 @@ return [
                  'region',
                  'city',
                  'naics',
-                 'sic',
              ],
          ],
 
@@ -209,7 +203,6 @@ return [
                  'region',
                  'city',
                  'naics',
-                 'sic',
              ],
          ],
 
@@ -230,7 +223,6 @@ return [
                  'region',
                  'city',
                  'naics',
-                 'sic',
              ],
          ],
 
@@ -251,7 +243,6 @@ return [
                  'region',
                  'city',
                  'naics',
-                 'sic',
              ],
          ],
     
@@ -272,7 +263,6 @@ return [
                  'region',
                  'city',
                  'naics',
-                 'sic',
              ],
          ],
  
@@ -332,7 +322,6 @@ return [
                 'region',
                 'city',
                 'naics',
-                'sic',
             ],
         ],
 
@@ -352,7 +341,6 @@ return [
                 'region',
                 'city',
                 'naics',
-                'sic',
                 'sector',
             ],
         ],
@@ -373,7 +361,6 @@ return [
                 'region',
                 'city',
                 'naics',
-                'sic',
                 'sector',
             ],
         ],
@@ -395,7 +382,6 @@ return [
                 'region',
                 'city',
                 'naics',
-                'sic',
             ],
         ],
 
@@ -417,7 +403,6 @@ return [
                 'region',
                 'city',
                 'naics',
-                'sic',
             ],
         ],
 
@@ -442,7 +427,6 @@ return [
                 'region',
                 'city',
                 'naics',
-                'sic',
             ],
         ],
 
@@ -701,7 +685,7 @@ return [
                 'port',
                 'hostname',
                 'packets',
-                'size',
+                'response_size',
             ],
             'filters'   => [
                 'asn',
@@ -723,7 +707,7 @@ return [
                 'port',
                 'hostname',
                 'packets',
-                'size',
+                'response_size',
             ],
             'filters'   => [
                 'asn',
@@ -998,6 +982,7 @@ return [
             ],
         ],
 
+        // https://www.shadowserver.org/what-we-do/network-reporting/open-ssdp-report/
         'scan_ssdp' => [
             'class'     => 'OPEN_SSDP_SERVER',
             'type'      => 'INFO',
@@ -1028,7 +1013,7 @@ return [
                 'timestamp',
                 'protocol',
                 'port',
-                'size',
+                'response_size',
             ],
             'filters'   => [
                 'asn',
@@ -1135,6 +1120,7 @@ return [
             ],
         ],
 
+        // https://www.shadowserver.org/what-we-do/network-reporting/open-memcached-report/
         'scan_memcached' => [
             'class'     => 'OPEN_MEMCACHED_SERVER',
             'type'      => 'INFO',
@@ -1773,8 +1759,6 @@ return [
                 'region',
                 'city',
                 'naics',
-                'sic',
-                'response',
             ],
         ],
 
@@ -1795,8 +1779,6 @@ return [
                 'region',
                 'city',
                 'naics',
-                'sic',
-                'response',
             ],
         ],
     
@@ -2328,7 +2310,6 @@ return [
                 'ip',
                 'hostname',
                 'port',
-                'version',
             ],
             'filters'   =>  [
                 'asn',
@@ -2349,7 +2330,6 @@ return [
                 'ip',
                 'hostname',
                 'port',
-                'version',
             ],
             'filters'   =>  [
                 'asn',
@@ -2608,7 +2588,6 @@ return [
                 'timestamp',
                 'ip',
                 'hostname',
-                'protocol',
                 'port',
             ],
             'filters'   =>  [
@@ -2629,7 +2608,6 @@ return [
                 'timestamp',
                 'ip',
                 'hostname',
-                'protocol',
                 'port',
             ],
             'filters'   =>  [
