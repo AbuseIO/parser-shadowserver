@@ -541,7 +541,7 @@ return [
                 'instance_name',
                 'tcp_port',
                 'named_pipe',
-                'response_length',
+                'response_size',
                 'amplification',
             ],
             'filters'   => [
