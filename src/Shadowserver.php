@@ -3,7 +3,6 @@
 namespace AbuseIO\Parsers;
 
 use AbuseIO\Models\Incident;
-use Ddeboer\DataImport\Reader;
 use SplFileObject;
 use Madnest\Madzipper\Madzipper;
 
@@ -77,12 +76,33 @@ class Shadowserver extends Parser
 
                             // If feed is known and enabled, validate data and save report
                             if ($this->isKnownFeed() && $this->isEnabledFeed()) {
-                                $csvReports = new Reader\CsvReader(
-                                    new SplFileObject($this->tempPath . $compressedFile)
+                                $csvFile = new SplFileObject($this->tempPath . $compressedFile);
+                                $csvFile->setFlags(
+                                    SplFileObject::READ_CSV | SplFileObject::SKIP_EMPTY | SplFileObject::DROP_NEW_LINE
                                 );
-                                $csvReports->setHeaderRowNumber(0);
+                                $csvFile->setCsvControl(',');
+                                $headers = null;
 
-                                foreach ($csvReports as $report) {
+                                foreach ($csvFile as $row) {
+                                    // Skip empty rows
+                                    if ($row === null || $row === false || (is_array($row) && count($row) === 1 && $row[0] === null)) {
+                                        continue;
+                                    }
+
+                                    // First non-empty row is the header
+                                    if ($headers === null) {
+                                        $headers = $row;
+                                        continue;
+                                    }
+
+                                    // Combine header with row values to build associative report
+                                    $report = [];
+                                    foreach ($headers as $i => $head) {
+                                        if ($head === null || $head === '') {
+                                            continue;
+                                        }
+                                        $report[$head] = array_key_exists($i, $row) ? $row[$i] : null;
+                                    }
 
                                     // Handle field mappings first
                                     $aliasses = config("{$this->configBase}.feeds.{$this->feedName}.aliasses");
