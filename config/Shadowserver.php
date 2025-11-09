@@ -446,6 +446,27 @@ return [
             ],
         ],
 
+        // https://www.shadowserver.org/what-we-do/network-reporting/open-ws-discovery-report/
+        'scan_ws_discovery' => [
+            'class'     => 'OPEN_WS_DISCOVERY',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'protocol',
+                'port',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+                'naics',
+                'sic',
+            ],
+        ],
+
         // https://www.shadowserver.org/what-we-do/network-reporting/open-elasticsearch-report/
         'scan_elasticsearch' => [
             'class'     => 'OPEN_ELASTICSEARCH_SERVER',
@@ -488,6 +509,290 @@ return [
                 'region',
                 'city',
             ],
+        ],
+
+        // Bulk-added scan feeds (IPv4 and IPv6 variants)
+        'scan_activemq' => [
+            'class'     => 'OPEN_ACTIVEMQ',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+        'scan6_activemq' => [
+            'class'     => 'OPEN_ACTIVEMQ',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_badsecrets' => [
+            'class'     => 'OPEN_BADSECRETS',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+        'scan6_badsecrets' => [
+            'class'     => 'OPEN_BADSECRETS',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_bgp' => [
+            'class'     => 'OPEN_BGP',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+        'scan6_bgp' => [
+            'class'     => 'OPEN_BGP',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_couchdb' => [
+            'class'     => 'OPEN_COUCHDB',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_ddos_middlebox' => [
+            'class'     => 'OPEN_DDOS_MIDDLEBOX',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_docker' => [
+            'class'     => 'OPEN_DOCKER',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_dvr_dhcpdiscover' => [
+            'class'     => 'OPEN_DVR_DHCPDISCOVER',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_gtp' => [
+            'class'     => 'OPEN_GTP',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_http_proxy' => [
+            'class'     => 'OPEN_HTTP_PROXY',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+        'scan6_http_proxy' => [
+            'class'     => 'OPEN_HTTP_PROXY',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_imap' => [
+            'class'     => 'OPEN_IMAP',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+        'scan6_imap' => [
+            'class'     => 'OPEN_IMAP',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+        'scan_imap_vulnerable' => [
+            'class'     => 'OPEN_IMAP_VULNERABLE',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+        'scan6_imap_vulnerable' => [
+            'class'     => 'OPEN_IMAP_VULNERABLE',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_ip_tunnel' => [
+            'class'     => 'OPEN_IP_TUNNEL',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+        'scan6_ip_tunnel' => [
+            'class'     => 'OPEN_IP_TUNNEL',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan6_ipp' => [
+            'class'     => 'OPEN_IPP',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan6_isakmp' => [
+            'class'     => 'OPEN_ISAKMP',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_mqtt_anon' => [
+            'class'     => 'OPEN_MQTT_ANON',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+        'scan6_mqtt_anon' => [
+            'class'     => 'OPEN_MQTT_ANON',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_pop3' => [
+            'class'     => 'OPEN_POP3',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+        'scan6_pop3' => [
+            'class'     => 'OPEN_POP3',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+        'scan_pop3_vulnerable' => [
+            'class'     => 'OPEN_POP3_VULNERABLE',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+        'scan6_pop3_vulnerable' => [
+            'class'     => 'OPEN_POP3_VULNERABLE',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_quic' => [
+            'class'     => 'OPEN_QUIC',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_sip' => [
+            'class'     => 'OPEN_SIP',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_ssl' => [
+            'class'     => 'OPEN_SSL',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+        'scan6_ssl' => [
+            'class'     => 'OPEN_SSL',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_kubernetes' => [
+            'class'     => 'OPEN_KUBERNETES',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_loop_dos' => [
+            'class'     => 'OPEN_LOOP_DOS',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_msrpc' => [
+            'class'     => 'OPEN_MSRPC',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_netis_router' => [
+            'class'     => 'OPEN_NETIS_ROUTER',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_post_exploitation_framework' => [
+            'class'     => 'OPEN_POST_EXPLOITATION_FRAMEWORK',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
+        ],
+
+        'scan_synfulknock' => [
+            'class'     => 'OPEN_SYNFULKNOCK',
+            'type'      => 'INFO',
+            'enabled'   => true,
+            'fields'    => [ 'ip','timestamp','protocol','port' ],
+            'filters'   => [ 'asn','geo','region','city','naics','sic' ],
         ],
 
         // https://www.shadowserver.org/what-we-do/network-reporting/open-qotd-report/

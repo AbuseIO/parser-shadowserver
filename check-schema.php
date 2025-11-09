@@ -178,6 +178,7 @@ function parseArgs(array $argv): array {
         'json'   => 'https://raw.githubusercontent.com/The-Shadowserver-Foundation/report_schema/main/reports.json',
         'strict' => false,
         'fields' => false,
+        'config_example' => false,
     ];
     for ($i = 1; $i < count($argv); $i++) {
         $a = $argv[$i];
@@ -187,12 +188,14 @@ function parseArgs(array $argv): array {
             $args['strict'] = true;
         } elseif ($a === '--fields') {
             $args['fields'] = true;
+        } elseif ($a === '--config-example') {
+            $args['config_example'] = true;
         } elseif ($a === '--help' || $a === '-h') {
-            stdout("Usage: {$argv[0]} [--json <url-or-path>] [--strict] [--fields]");
+            stdout("Usage: {$argv[0]} [--json <url-or-path>] [--strict] [--fields] [--config-example]");
             exit(0);
         } else {
             stderr("Unknown argument: {$a}");
-            stdout("Usage: {$argv[0]} [--json <url-or-path>] [--strict] [--fields]");
+            stdout("Usage: {$argv[0]} [--json <url-or-path>] [--strict] [--fields] [--config-example]");
             exit(2);
         }
     }
@@ -263,7 +266,7 @@ function main(array $argv): int {
     stdout('');
 
     if (!empty($missingFeeds)) {
-        stdout('Present in config but not in Shadowserver schema:');
+        stdout('Present in config but not in Shadowserver schema (this is fine, just legacy supported):');
         foreach ($missingFeeds as $name) {
             stdout("  - {$name}");
         }
@@ -292,6 +295,72 @@ function main(array $argv): int {
                 stdout('      remote only: ' . implode(', ', $diffs['remote_only']));
             }
         }
+        stdout('');
+    }
+
+    // Suggestion output for missing locally feeds (optional)
+    if ($args['config_example'] && !empty($schemaOnlyFeeds)) {
+        $standardFilters = ['asn','geo','region','city','naics','sic'];
+        $whitelistScanFields = ['ip','timestamp','port','protocol'];
+
+        $formatPhpList = function(array $items, int $indentSpaces = 17): string {
+            $indent = str_repeat(' ', $indentSpaces);
+            $lines = [];
+            foreach ($items as $it) {
+                $lines[] = $indent . "'" . $it . "',";
+            }
+            return implode("\n", $lines);
+        };
+
+        stdout('Suggested config additions (copy into vendor/abuseio/parser-shadowserver/config/Shadowserver.php):');
+        foreach ($schemaOnlyFeeds as $name) {
+            $remoteFields = $defs[$name] ?? [];
+
+            $isScan = false;
+            $service = null;
+            if (preg_match('/^scan6?_([A-Za-z0-9_\-]+)/', $name, $m)) {
+                $isScan = true;
+                $service = strtoupper(str_replace('-', '_', $m[1]));
+            }
+
+            if ($isScan) {
+                $class = 'OPEN_' . $service;
+                $type  = 'INFO';
+                // Filter fields to a minimal, consistent set seen in existing scan_* feeds
+                $fieldsFiltered = array_values(array_intersect($remoteFields, $whitelistScanFields));
+                // If schema lacks typical names, fall back to using whatever it provides
+                if (empty($fieldsFiltered)) {
+                    $fieldsFiltered = $remoteFields;
+                }
+                $filters = $standardFilters;
+            } else {
+                $class = '???';
+                $type  = '???';
+                $fieldsFiltered = $remoteFields; // keep schema fields for non-scan feeds
+                $filters = []; // unknown; avoid guessing
+            }
+
+            // Format PHP stanza
+            stdout("  '{$name}' => [");
+            stdout("             'class'     => '{$class}',");
+            stdout("             'type'      => '{$type}',");
+            stdout("             'enabled'   => true,");
+            stdout("             'fields'    => [");
+            if (!empty($fieldsFiltered)) {
+                stdout($formatPhpList($fieldsFiltered));
+            }
+            stdout("             ],");
+            stdout("             'filters'   => [");
+            if (!empty($filters)) {
+                stdout($formatPhpList($filters));
+            }
+            stdout("             ],");
+            stdout("         ],");
+        }
+        stdout('');
+        stdout('Note: scan_* feeds default to class OPEN_$SERVICE and type INFO.');
+        stdout('      Non-scan feeds leave class/type as ??? for now.');
+        stdout('      Only suggestions for NEW elements are printed; existing items are untouched.');
         stdout('');
     }
 
