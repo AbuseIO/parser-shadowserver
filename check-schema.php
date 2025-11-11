@@ -306,7 +306,10 @@ function main(array $argv): int {
                 stdout('      local only:  ' . implode(', ', $diffs['local_only']));
             }
             if (!empty($diffs['remote_only'])) {
-                stdout('      remote only: ' . implode(', ', $diffs['remote_only']));
+                //stdout('      remote only: ' . implode(', ', $diffs['remote_only']));
+		foreach($diffs['remote_only'] as $diff) {
+                    echo "                 '$diff',".PHP_EOL;
+                }
             }
         }
         stdout('');
