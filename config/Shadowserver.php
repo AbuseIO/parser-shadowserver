@@ -1,6 +1,6 @@
 <?php
 
-return [
+$config = [
     'parser' => [
         'name'          => 'Shadowserver',
         'enabled'       => true,
@@ -24,25 +24,6 @@ return [
 
     'feeds' => [
     
-         'cisco_smart_install' => [
-             'class'     => 'OPEN_SMARTINSTALL',
-             'type'      => 'INFO',
-             'enabled'   => true,
-             'fields'    => [
-                 'ip',
-                 'timestamp',
-                 'port',
-             ],
-             'filters'   => [
-                 'asn',
-                 'geo',
-                 'region',
-                 'city',
-                 'naics',
-                 'sic',
-             ],
-         ],
-
         // https://www.shadowserver.org/what-we-do/network-reporting/accessible-cisco-smart-install-report/
         'scan_cisco_smart_install' => [
              'class'     => 'OPEN_SMARTINSTALL',
@@ -50,6 +31,8 @@ return [
              'enabled'   => true,
              'fields'    => [
                  'ip',
+                 'hostname',
+                 'protocol',
                  'timestamp',
                  'port',
              ],
@@ -60,6 +43,10 @@ return [
                  'city',
                  'naics',
                  'sic',
+                 'tag',
+                 'hostname_source',
+                 'sector',
+                 'severity',
              ],
          ],
 
@@ -70,14 +57,19 @@ return [
              'enabled'   => true,
              'fields'    => [
                  'ip',
+                 'hostname',
+                 'protocol',
                  'timestamp',
                  'port',
                  'server_type',
-                 'clisterid',
+                 'clusterid',
                  'total_disk',
                  'livenodes',
                  'namenodeaddress',
                  'volumeinfo',
+                 'version',
+                 'used_disk',
+                 'free_disk',
              ],
              'filters'   => [
                  'asn',
@@ -86,6 +78,10 @@ return [
                  'city',
                  'naics',
                  'sic',
+                 'tag',
+                 'hostname_source',
+                 'sector',
+                 'severity',
              ],
          ],
 
@@ -1056,6 +1052,26 @@ return [
                 'region',
                 'city',
             ],
+	],
+
+        'compromised_website6' => [
+            'class'     => 'COMPROMISED_WEBSITE',
+            'type'      => 'ABUSE',
+            'enabled'   => true,
+            'fields'    => [
+                'ip',
+                'timestamp',
+                'http_host',
+                'category',
+                'tag',
+                'redirect_target',
+            ],
+            'filters'   => [
+                'asn',
+                'geo',
+                'region',
+                'city',
+            ],
         ],
 
         'cwsandbox_url' => [
@@ -1191,6 +1207,12 @@ return [
                 'geo',
                 'region',
                 'city',
+                 'naics',
+                 'sic',
+                 'tag',
+                 'hostname_source',
+                 'sector',
+                 'severity',
             ],
         ],
 
@@ -1216,6 +1238,12 @@ return [
                 'geo',
                 'region',
                 'city',
+                 'naics',
+                 'sic',
+                 'tag',
+                 'hostname_source',
+                 'sector',
+                 'severity',
             ],
         ],
 
@@ -1236,6 +1264,12 @@ return [
                 'geo',
                 'region',
                 'city',
+                 'naics',
+                 'sic',
+                 'tag',
+                 'hostname_source',
+                 'sector',
+                 'severity',
             ],
         ],
 
@@ -1256,6 +1290,12 @@ return [
                 'geo',
                 'region',
                 'city',
+                 'naics',
+                 'sic',
+                 'tag',
+                 'hostname_source',
+                 'sector',
+                 'severity',
             ],
         ],
 
@@ -1277,6 +1317,12 @@ return [
                 'geo',
                 'region',
                 'city',
+                 'naics',
+                 'sic',
+                 'tag',
+                 'hostname_source',
+                 'sector',
+                 'severity',
             ],
         ],
 
@@ -1297,6 +1343,12 @@ return [
                 'geo',
                 'region',
                 'city',
+                 'naics',
+                 'sic',
+                 'tag',
+                 'hostname_source',
+                 'sector',
+                 'severity',
             ],
         ],
 
@@ -1317,6 +1369,12 @@ return [
                 'geo',
                 'region',
                 'city',
+                 'naics',
+                 'sic',
+                 'tag',
+                 'hostname_source',
+                 'sector',
+                 'severity',
             ],
         ],
 
@@ -1347,6 +1405,12 @@ return [
                 'geo',
                 'region',
                 'city',
+                 'naics',
+                 'sic',
+                 'tag',
+                 'hostname_source',
+                 'sector',
+                 'severity',
             ],
         ],
 
@@ -1368,6 +1432,12 @@ return [
                 'geo',
                 'region',
                 'city',
+                 'naics',
+                 'sic',
+                 'tag',
+                 'hostname_source',
+                 'sector',
+                 'severity',
             ],
         ],
 
@@ -1391,6 +1461,12 @@ return [
                 'geo',
                 'region',
                 'city',
+                 'naics',
+                 'sic',
+                 'tag',
+                 'hostname_source',
+                 'sector',
+                 'severity',
             ],
         ],
 
@@ -2760,3 +2836,14 @@ return [
 
     ],
 ];
+
+//Format alias => real
+$aliasses = [
+	'cisco_smart_install' => 'scan_cisco_smart_install',
+];
+
+foreach ($aliasses as $alias => $real) {
+  $config['feeds'][$alias] = $config['feeds'][$real];
+}
+
+return $config;

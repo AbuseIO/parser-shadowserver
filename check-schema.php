@@ -235,7 +235,20 @@ function main(array $argv): int {
     $fieldMismatches = [];
 
     foreach ($feeds as $feedName => $feedCfg) {
-        $localFields = array_values(array_unique(array_map('strval', ($feedCfg['fields'] ?? []))));
+        // Only use declared 'fields' for mismatch reporting.
+        // If a feed defines a 'filters' list, those are intentionally ignored
+        // and should not cause mismatch reports.
+        $localFieldsRaw = [];
+        if (isset($feedCfg['fields']) && is_array($feedCfg['fields'])) {
+            $localFieldsRaw = array_merge($localFieldsRaw, $feedCfg['fields']);
+        }
+        $localFields = array_values(array_unique(array_map('strval', $localFieldsRaw)));
+
+        // Normalized list of locally-declared filters to ignore in diffs
+        $localFilters = [];
+        if (isset($feedCfg['filters']) && is_array($feedCfg['filters'])) {
+            $localFilters = array_values(array_unique(array_map('strval', $feedCfg['filters'])));
+        }
         if (!array_key_exists($feedName, $defs)) {
             $missingFeeds[] = $feedName;
             continue;
@@ -244,7 +257,8 @@ function main(array $argv): int {
 
         // Compute differences
         $localMinusRemote = array_values(array_diff($localFields, $remoteFields));
-        $remoteMinusLocal = array_values(array_diff($remoteFields, $localFields));
+        // Exclude any locally-declared filters from remote-only mismatches
+        $remoteMinusLocal = array_values(array_diff($remoteFields, $localFields, $localFilters));
 
         if (!empty($localMinusRemote) || !empty($remoteMinusLocal)) {
             $fieldMismatches[$feedName] = [
