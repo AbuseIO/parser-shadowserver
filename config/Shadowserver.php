@@ -770,6 +770,8 @@ $config = [
         ],
 
         // Bulk-added scan feeds (IPv4 and IPv6 variants)
+
+		// https://www.shadowserver.org/what-we-do/network-reporting/accessible-activemq-service-report/
         'scan_activemq' => [
             'class'     => 'OPEN_ACTIVEMQ',
             'type'      => 'INFO',
@@ -798,6 +800,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/accessible-activemq-service-report/
         'scan6_activemq' => [
             'class'     => 'OPEN_ACTIVEMQ',
             'type'      => 'INFO',
@@ -826,6 +829,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/badsecrets-report/
         'scan_badsecrets' => [
             'class'     => 'OPEN_BADSECRETS',
             'type'      => 'INFO',
@@ -866,6 +870,8 @@ $config = [
                 'severity',
             ],
         ],
+
+		// https://www.shadowserver.org/what-we-do/network-reporting/badsecrets-report/
         'scan6_badsecrets' => [
             'class'     => 'OPEN_BADSECRETS',
             'type'      => 'INFO',
@@ -907,6 +913,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/open-bgp-service-report/
         'scan_bgp' => [
             'class'     => 'OPEN_BGP',
             'type'      => 'INFO',
@@ -945,6 +952,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/open-bgp-service-report/
         'scan6_bgp' => [
             'class'     => 'OPEN_BGP',
             'type'      => 'INFO',
@@ -983,6 +991,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/accessible-couchdb-report/
         'scan_couchdb' => [
             'class'     => 'OPEN_COUCHDB',
             'type'      => 'INFO',
@@ -1017,6 +1026,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/vulnerable-ddos-middlebox-report/
         'scan_ddos_middlebox' => [
             'class'     => 'OPEN_DDOS_MIDDLEBOX',
             'type'      => 'INFO',
@@ -1046,6 +1056,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/accessible-docker-service-report/
         'scan_docker' => [
             'class'     => 'OPEN_DOCKER',
             'type'      => 'INFO',
@@ -1088,6 +1099,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/open-dvr-dhcpdiscover-report/
         'scan_dvr_dhcpdiscover' => [
             'class'     => 'OPEN_DVR_DHCPDISCOVER',
             'type'      => 'INFO',
@@ -1141,6 +1153,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/accessible-gprs-tunneling-protocol-gtp-report/
         'scan_gtp' => [
             'class'     => 'OPEN_GTP',
             'type'      => 'INFO',
@@ -1175,6 +1188,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/open-http-proxy-report/
         'scan_http_proxy' => [
             'class'     => 'OPEN_HTTP_PROXY',
             'type'      => 'INFO',
@@ -1211,6 +1225,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/open-http-proxy-report/
         'scan6_http_proxy' => [
             'class'     => 'OPEN_HTTP_PROXY',
             'type'      => 'INFO',
@@ -1247,6 +1262,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/accessible-imap-report/
         'scan_imap' => [
             'class'     => 'OPEN_IMAP',
             'type'      => 'INFO',
@@ -1317,6 +1333,8 @@ $config = [
                  'validation_level',
             ],
         ],
+
+		// https://www.shadowserver.org/what-we-do/network-reporting/accessible-imap-report/
         'scan6_imap' => [
             'class'     => 'OPEN_IMAP',
             'type'      => 'INFO',
@@ -1387,6 +1405,7 @@ $config = [
                  'validation_level',
             ],
         ],
+	
         'scan_imap_vulnerable' => [
             'class'     => 'OPEN_IMAP_VULNERABLE',
             'type'      => 'INFO',
@@ -1529,6 +1548,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/open-ip-tunnel-report/
         'scan_ip_tunnel' => [
             'class'     => 'OPEN_IP_TUNNEL',
             'type'      => 'INFO',
@@ -1555,6 +1575,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/open-ip-tunnel-report/
         'scan6_ip_tunnel' => [
             'class'     => 'OPEN_IP_TUNNEL',
             'type'      => 'INFO',
@@ -1581,6 +1602,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/open-ipp-report/
         'scan6_ipp' => [
             'class'     => 'OPEN_IPP',
             'type'      => 'INFO',
@@ -1625,6 +1647,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/vulnerable-isakmp-report/
         'scan6_isakmp' => [
             'class'     => 'OPEN_ISAKMP',
             'type'      => 'INFO',
@@ -1663,6 +1686,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/open-mqtt-report/
         'scan_mqtt_anon' => [
             'class'     => 'OPEN_MQTT_ANON',
             'type'      => 'INFO',
@@ -1728,6 +1752,8 @@ $config = [
                  'issuer_serial_number',
             ],
         ],
+
+		// https://www.shadowserver.org/what-we-do/network-reporting/open-mqtt-report/
         'scan6_mqtt_anon' => [
             'class'     => 'OPEN_MQTT_ANON',
             'type'      => 'INFO',
@@ -1794,6 +1820,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/accessible-pop3-report/
         'scan_pop3' => [
             'class'     => 'OPEN_POP3',
             'type'      => 'INFO',
@@ -1864,6 +1891,8 @@ $config = [
                  'validation_level',
             ],
         ],
+
+		// https://www.shadowserver.org/what-we-do/network-reporting/accessible-pop3-report/
         'scan6_pop3' => [
             'class'     => 'OPEN_POP3',
             'type'      => 'INFO',
@@ -1934,6 +1963,8 @@ $config = [
                  'validation_level',
             ],
         ],
+
+		
         'scan_pop3_vulnerable' => [
             'class'     => 'OPEN_POP3_VULNERABLE',
             'type'      => 'INFO',
@@ -2004,6 +2035,8 @@ $config = [
                  'validation_level',
             ],
         ],
+
+	
         'scan6_pop3_vulnerable' => [
             'class'     => 'OPEN_POP3_VULNERABLE',
             'type'      => 'INFO',
@@ -2075,6 +2108,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/accessible-quic-report/
         'scan_quic' => [
             'class'     => 'OPEN_QUIC',
             'type'      => 'INFO',
@@ -2104,6 +2138,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/accessible-sip-report/
         'scan_sip' => [
             'class'     => 'OPEN_SIP',
             'type'      => 'INFO',
@@ -2145,6 +2180,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/accessible-ssl-report/
         'scan_ssl' => [
             'class'     => 'OPEN_SSL',
             'type'      => 'INFO',
@@ -2231,6 +2267,8 @@ $config = [
                  'jarm',
             ],
         ],
+
+		// https://www.shadowserver.org/what-we-do/network-reporting/accessible-ssl-report/
         'scan6_ssl' => [
             'class'     => 'OPEN_SSL',
             'type'      => 'INFO',
@@ -2318,6 +2356,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/accessible-kubernetes-api-server-report/
         'scan_kubernetes' => [
             'class'     => 'OPEN_KUBERNETES',
             'type'      => 'INFO',
@@ -2406,6 +2445,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/high-loop-dos-report/
         'scan_loop_dos' => [
             'class'     => 'OPEN_LOOP_DOS',
             'type'      => 'INFO',
@@ -2433,6 +2473,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/accessible-ms-rpc-service-report/
         'scan_msrpc' => [
             'class'     => 'OPEN_MSRPC',
             'type'      => 'INFO',
@@ -2470,6 +2511,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/netcore-netis-router-vulnerability-scan-report/
         'scan_netis_router' => [
             'class'     => 'OPEN_NETIS_ROUTER',
             'type'      => 'INFO',
@@ -2498,6 +2540,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/post-exploitation-framework/
         'scan_post_exploitation_framework' => [
             'class'     => 'OPEN_POST_EXPLOITATION_FRAMEWORK',
             'type'      => 'INFO',
@@ -2545,6 +2588,7 @@ $config = [
             ],
         ],
 
+		// https://www.shadowserver.org/what-we-do/network-reporting/synful-scan-report/
         'scan_synfulknock' => [
             'class'     => 'OPEN_SYNFULKNOCK',
             'type'      => 'INFO',
